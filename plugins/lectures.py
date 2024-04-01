@@ -1,3 +1,4 @@
+
 import requests
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
@@ -5,7 +6,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from bot import Bot
 
 @Bot.on_message(filters.command('lecture'))
-async def lectures_command(_, message):
+async def lectures_command(client, message):
     # Create the inline keyboard with subjects
     keyboard = [
         [
@@ -25,7 +26,7 @@ async def lectures_command(_, message):
     # Send the message with the inline keyboard
     await message.reply_text("Choose a subject from below please:", reply_markup=reply_markup)
 
-@Bot.on_callback_query(filters.regex('^subject_'))
+@Bot.on_callback_query(filters.regex(r'^subject_[\w\s]+$'))
 async def subject_callback(_, query):
     print('ok')
     subject = query.data.split("_")[1]
@@ -45,7 +46,7 @@ async def subject_callback(_, query):
     else:
         await query.message.edit_text("Failed to fetch data from the API. Please try again later.")
 
-@Bot.on_callback_query(filters.regex('^teacher_'))
+@Bot.on_callback_query(filters.regex(r'^teacher_[\w\s]+_[\w\s]+$'))
 async def teacher_callback(_, query):
     data_parts = query.data.split("_")
     subject = data_parts[1]
@@ -63,7 +64,7 @@ async def teacher_callback(_, query):
     else:
         await query.message.edit_text("Failed to fetch data from the API. Please try again later.")
 
-@Bot.on_callback_query(filters.regex('^chapter_'))
+@Bot.on_callback_query(filters.regex(r'^chapter_[\w\s]+_[\w\s]+_[\w\s]+$'))
 async def chapter_callback(_, query):
     data_parts = query.data.split("_")
     subject = data_parts[1]
