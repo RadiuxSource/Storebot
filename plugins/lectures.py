@@ -29,6 +29,7 @@ async def lectures_command(client, message):
 @Bot.on_callback_query()
 async def handle_callback(_, query):
     if query.data.startswith("subject_"):
+        print('ok')
         subject = query.data.split("_")[1]
         # Fetch data from the API
         response = requests.get(f"https://zenova-lec-api.vercel.app/teachers?subject={subject}")
@@ -73,3 +74,5 @@ async def handle_callback(_, query):
             await query.message.reply_text(f"Here's the lecture link for {chapter_name} by {teacher_name}: {lecture_link}")
         else:
             await query.message.reply_text("Failed to fetch lecture link. Please try again later.")
+    else:
+        print('no ok')
