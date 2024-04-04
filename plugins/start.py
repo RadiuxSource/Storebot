@@ -85,7 +85,7 @@ async def start_command(client: Client, message: Message):
             [
                 [
                     InlineKeyboardButton("𝐂𝙷𝙰𝙽𝙽𝙴𝙻 💕", url = UPDT_CHNL),
-                    InlineKeyboardButton("Zᴇɴᴏᴠᴀ Lᴇᴄᴛᴜʀᴇs Bᴏᴛ 💕", url= "https://t.me/JEE_LECTURES_BOT")
+                    InlineKeyboardButton("Zᴇɴᴏᴠᴀ Lᴇᴄᴛᴜʀᴇs Bᴏᴛ 💕", url= "https://t.me/JEE_LECTURE_BOT")
                 ]
             ]
         )
