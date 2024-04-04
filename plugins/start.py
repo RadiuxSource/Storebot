@@ -78,8 +78,8 @@ async def start_command(client: Client, message: Message):
                 await msg.copy(chat_id=message.from_user.id, caption = caption, parse_mode = ParseMode.HTML, reply_markup = reply_markup, protect_content=PROTECT_CONTENT)
             except:
                 pass
-            await client.send_message(message.from_user.id, START_MSG)
         return
+        await client.send_message(message.from_user.id, START_MSG)
     else:
         reply_markup = InlineKeyboardMarkup(
             [
