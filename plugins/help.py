@@ -5,22 +5,22 @@ from bot import Bot as app
 from helper_func import subscribed
 from database.database import add_user
 
+from config import UPDT_CHNL
+
 
 # Handler for the /help command
 @app.on_message(filters.command('help') & filters.private & subscribed)
 async def help_command(client: Client, message):
     # Customizable help message
     help_text = """
-    Use command /lectures to get lectures menu...
-
-    bot is under development tab tak @iconic_robot use kro
-    nahi to gend marwao...
+Use the Zᴇɴᴏᴠᴀ Lᴇᴄᴛᴜʀᴇs Bᴏᴛ to know more!
     """
 
     # Inline button that links to your channel
     reply_markup = InlineKeyboardMarkup(
         [
-            [InlineKeyboardButton("Visit Channel 📢", url="https://t.me/yourchannelusername")],
+            [InlineKeyboardButton("Visit Channel 📢", url=UPDT_CHNL)],
+            [InlineKeyboardButton("Zᴇɴᴏᴠᴀ Lᴇᴄᴛᴜʀᴇs Bᴏᴛ 💕", url= "https://t.me/JEE_LECTURES_BOT")]
         ]
     )
 
