@@ -96,13 +96,7 @@ This bot is your gateway to accessing lectures on various subjects. If you're lo
         await message.reply_photo(
             START_IMG,
             quote = True,
-            caption = START_MSG.format(
-                first = message.from_user.first_name,
-                last = message.from_user.last_name,
-                username = None if not message.from_user.username else '@' + message.from_user.username,
-                mention = message.from_user.mention,
-                id = message.from_user.id
-            ),
+            caption = xytra,
             reply_markup = reply_markup
         )
         return
