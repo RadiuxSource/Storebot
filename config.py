@@ -1,8 +1,3 @@
-#(©)CodeXBotz
-
-
-
-
 import os
 import logging
 from logging.handlers import RotatingFileHandler
@@ -36,6 +31,10 @@ FORCE_SUB_CHANNEL = int(os.environ.get("FORCE_SUB_CHANNEL", "0"))
 
 TG_BOT_WORKERS = int(os.environ.get("TG_BOT_WORKERS", "4"))
 
+UPDT_CHNL = "https://t.me/+lkWsNLrl-Qs4NDQ1"
+
+START_IMG = "https://telegra.ph/file/cbcad53b141e4e227008e.jpg"
+
 #start message
 START_MSG = os.environ.get("START_MESSAGE", "Hello {first}\n\nI can store private files in Specified Channel and other users can access it from special link.")
 try:
@@ -61,9 +60,8 @@ BOT_STATS_TEXT = "<b>BOT UPTIME</b>\n{uptime}"
 USER_REPLY_TEXT = "❌ Don't send me messages directly, Use only one of the given CMDs"
 
 ADMINS.append(OWNER_ID)
-ADMINS.append(1250450587)
 
-LOG_FILE_NAME = "filesharingbot.txt"
+LOG_FILE_NAME = "zenovalogs.txt"
 
 logging.basicConfig(
     level=logging.INFO,
