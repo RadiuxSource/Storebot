@@ -26,7 +26,9 @@ def is_member(client, chat_id, user_id):
         member = client.get_chat_member(chat_id=chat_id, user_id=user_id)
     except UserNotParticipant:
         return False
-    if member.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.MEMBER]:
+    chat_member = client.get_chat_member(chat_id=chat_id, user_id=user_id)
+    status = chat_member.status
+    if status == enums.ChatMemberStatus.MEMBER or status == enums.ChatMemberStatus.RESTRICTED or enums.ChatMemberStatus.ADMINISTRATOR:
         return True
     return False  
 
