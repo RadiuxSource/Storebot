@@ -20,7 +20,7 @@ Use the Zᴇɴᴏᴠᴀ Lᴇᴄᴛᴜʀᴇs Bᴏᴛ to know more!
     reply_markup = InlineKeyboardMarkup(
         [
             [InlineKeyboardButton("Visit Channel 📢", url=UPDT_CHNL)],
-            [InlineKeyboardButton("Zᴇɴᴏᴠᴀ Lᴇᴄᴛᴜʀᴇs Bᴏᴛ 💕", url= "https://t.me/JEE_LECTURES_BOT")]
+            [InlineKeyboardButton("Zᴇɴᴏᴠᴀ Lᴇᴄᴛᴜʀᴇs Bᴏᴛ 💕", url= "https://t.me/JEE_LECTURE_BOT")]
         ]
     )
 
