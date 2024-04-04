@@ -6,7 +6,7 @@ from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, 
 from pyrogram.errors import FloodWait, UserIsBlocked, InputUserDeactivated
 
 from bot import Bot
-from config import ADMINS, FORCE_MSG, START_MSG, CUSTOM_CAPTION, DISABLE_CHANNEL_BUTTON, PROTECT_CONTENT
+from config import ADMINS, FORCE_MSG, START_MSG, CUSTOM_CAPTION, DISABLE_CHANNEL_BUTTON, PROTECT_CONTENT, START_IMG, UPDT_CHNL
 from helper_func import subscribed, encode, decode, get_messages
 from database.database import add_user, del_user, full_userbase, present_user
 
@@ -77,19 +77,24 @@ async def start_command(client: Client, message: Message):
                 await asyncio.sleep(e.x)
                 await msg.copy(chat_id=message.from_user.id, caption = caption, parse_mode = ParseMode.HTML, reply_markup = reply_markup, protect_content=PROTECT_CONTENT)
             except:
-                pass
-        return
+                pass       
         await client.send_message(message.from_user.id, START_MSG)
+        return
     else:
         reply_markup = InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton("𝐒𝚄𝙿𝙿𝙾𝚁𝚃 💕", url = "https://t.me/future_iitians_jeestudyroom"),
-                    InlineKeyboardButton("𝐃𝙴𝚅𝙴𝙻𝙾𝙿𝙴𝚁 💕", callback_data = "about")
+                    InlineKeyboardButton("𝐂𝙷𝙰𝙽𝙽𝙴𝙻 💕", url = UPDT_CHNL),
+                    InlineKeyboardButton("Zᴇɴᴏᴠᴀ Lᴇᴄᴛᴜʀᴇs Bᴏᴛ 💕", url= "https://t.me/JEE_LECTURES_BOT")
                 ]
             ]
         )
-        await message.reply_text(
+        xytra = """👋Wᴇʟᴄᴏᴍᴇ ᴛᴏ Zᴇɴᴏᴠᴀ Lᴇᴄᴛᴜʀᴇs Cᴏᴍᴘᴀɴɪᴏɴ Bᴏᴛ!
+
+This bot is your gateway to accessing lectures on various subjects. If you're looking for lecture links, kindly use Zenova Lectures Bot. Feel free to explore and enhance your learning experience with us!
+"""
+        await message.reply_photo(
+            START_IMG,
             text = START_MSG.format(
                 first = message.from_user.first_name,
                 last = message.from_user.last_name,
@@ -120,7 +125,7 @@ async def not_joined(client: Client, message: Message):
         [
             InlineKeyboardButton(
                 "𝐉𝙾𝙸𝙽 𝐂𝙷𝙰𝙽𝙽𝙴𝙻 ❣️",
-                url = "https://t.me/+_dbbcrxxNecyZDJl")
+                url = UPDT_CHNL)
         ],
         [
             InlineKeyboardButton(
