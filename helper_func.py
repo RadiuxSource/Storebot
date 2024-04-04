@@ -16,21 +16,20 @@ async def is_subscribed(filter, client, update):
     if user_id in ADMINS:
         return True
     
-    if not is_member(client, chat_ids[0], user_id) or not is_member(client, chat_ids[1], user_id):
-        return False
-    
-    return True
-
-def is_member(client, chat_id, user_id):
     try:
-        member = client.get_chat_member(chat_id=chat_id, user_id=user_id)
+        chat_member_0 = await client.get_chat_member(chat_id=chat_ids[0], user_id=user_id)
+        chat_member_1 = await client.get_chat_member(chat_id=chat_ids[1], user_id=user_id)
     except UserNotParticipant:
         return False
-    chat_member = client.get_chat_member(chat_id=chat_id, user_id=user_id)
-    status = chat_member.status
-    if status == enums.ChatMemberStatus.MEMBER or status == enums.ChatMemberStatus.RESTRICTED or enums.ChatMemberStatus.ADMINISTRATOR:
+
+    status_0 = chat_member_0.status
+    status_1 = chat_member_1.status
+
+    if (status_0 in [enums.ChatMemberStatus.MEMBER, enums.ChatMemberStatus.RESTRICTED, enums.ChatMemberStatus.ADMINISTRATOR]) \
+            and (status_1 in [enums.ChatMemberStatus.MEMBER, enums.ChatMemberStatus.RESTRICTED, enums.ChatMemberStatus.ADMINISTRATOR]):
         return True
-    return False  
+    
+    return False
 
 async def encode(string):
     string_bytes = string.encode("ascii")
