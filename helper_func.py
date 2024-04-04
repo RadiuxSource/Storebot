@@ -10,7 +10,7 @@ from config import ADMINS
 from pyrogram.errors.exceptions.bad_request_400 import UserNotParticipant
 from pyrogram.errors import FloodWait
 
-chat_ids = (-1001685809766, -1002104201071)
+chat_ids = (-1002103203794, -1002104201071)
 
 async def is_subscribed(filter, client, update):
     user_id = update.from_user.id
