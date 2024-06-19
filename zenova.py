@@ -6,7 +6,7 @@ from pymongo import MongoClient
 from os import listdir, path
 from dotenv import load_dotenv
 from pyrogram import Client
-from config2 import API_ID, API_HASH, BOT_TOKEN, BOT_USERNAME, MONGO_URI
+from config2 import API_ID, API_HASH, BOT_TOKEN2, BOT_USERNAME, MONGO_URI
 
 
 
@@ -27,7 +27,7 @@ zenova = Client(
     ":zenova:",
     api_id=API_ID,
     api_hash=API_HASH,
-    bot_token=BOT_TOKEN,
+    bot_token=BOT_TOKEN2,
 )
 
 
