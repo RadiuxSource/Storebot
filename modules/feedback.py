@@ -1,7 +1,7 @@
 import pyrostep
 from pyrogram import filters
 from zenova import zenova
-from config import LOGGER_ID
+from config2 import LOGGER_ID
 
 pyrostep.listen(zenova)
 @zenova.on_message(filters.command("feedback"))

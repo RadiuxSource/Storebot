@@ -7,8 +7,8 @@ import datetime, time
 import pyrostep
 
 from zenova import zenova as cbot
-from db import present_user, full_userbase as get_users_list
-from config import LOGGER_ID as logger
+from database.database import present_user, full_userbase as get_users_list
+from config2 import LOGGER_ID as logger
 
 pyrostep.listen(cbot)
 
