@@ -1,5 +1,3 @@
-#(©)Codexbotz
-
 from aiohttp import web
 from plugins import web_server
 
@@ -45,7 +43,7 @@ class Bot(Client):
         try:
             db_channel = await self.get_chat(CHANNEL_ID)
             self.db_channel = db_channel
-            test = await self.send_message(chat_id = db_channel.id, text = "Test Message")
+            test = await self.send_message(chat_id=db_channel.id, text="Test Message")
             await test.delete()
         except Exception as e:
             self.LOGGER(__name__).warning(e)
@@ -53,8 +51,8 @@ class Bot(Client):
             sys.exit()
 
         self.set_parse_mode(ParseMode.HTML)
-        self.LOGGER(__name__).info(f"Bot Running..!\n\nCreated by Zenova")
-        self.LOGGER(__name__).info(f""" \n\n       
+        self.LOGGER(__name__).info("Bot Running..!\n\nCreated by Zenova")
+        self.LOGGER(__name__).info(r""" \n\n       
 
  _____     ______  _   __  ____   _    __  ___ 
 /__  /    / ____/ / | / / / __ \ | |  / / /   |
