@@ -1,21 +1,22 @@
-import asyncio
 from bot import Bot
 from zenova import zenova_boot, zenova_bot
+import asyncio
 
-if __name__ == "__main__":
-    # Create separate event loops for each bot
-    bot_loop = asyncio.new_event_loop()
-    zenova_loop = asyncio.new_event_loop()
-    
+loop = asyncio.get_event_loop()
 
-    async def run_bot():
-        bot = Bot()
-        await bot.run()
+loop.run_until_complete(zenova_bot())
+bot = Bot()
+loop.run_until_complete(bot.start())
+loop.run_until_complete(zenova_boot())
 
-    # Start both bots in separate event loops
-    zenova_loop.create_task(zenova_boot())
-    zenova_loop.create_task(zenova_bot())
-    bot_loop.create_task(run_bot())
+# from bot import Bot
+# from zenova import zenova_boot, zenova_bot
+# import asyncio
 
-    # Run both event loops concurrently
-    asyncio.gather(zenova_loop.run_forever())
+# async def main():
+#     await zenova_bot()
+#     bot = Bot()
+#     await bot.start()
+#     await zenova_boot()
+
+# asyncio.run(main())
