@@ -5,7 +5,7 @@ from pyrogram.errors import ButtonDataInvalid, MessageNotModified, rpc_error
 import requests
 
 from zenova import zenova as Bot
-from database.database import add_user, present_user
+from db import add_user, present_user
 import config2 as config
 from config2 import LOGGER_ID
 
