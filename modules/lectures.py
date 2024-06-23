@@ -6,7 +6,7 @@ import requests
 
 from zenova import zenova as Bot
 from database.database import add_user, present_user
-import config
+import config2 as config
 from config2 import LOGGER_ID
 
 strt_txt= '''👋 **Wᴇʟᴄᴏᴍᴇ ᴛᴏ Zᴇɴᴏᴠᴀ Lᴇᴄᴛᴜʀᴇs Bᴏᴛ!**
