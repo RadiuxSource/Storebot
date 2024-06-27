@@ -1,5 +1,5 @@
 from pyrogram import filters
-from pyrogram.types import Update
+from pyrogram.types import Message
 
 import aiohttp
 from helper.prompts import alakh_ai
@@ -18,8 +18,8 @@ async def handle_alakh(message):
             return answer
 
 
-async def is_alakh(_, __, update: Update):
-    return any(word in update.message.text.lower() for word in ['alakh'])
+async def is_alakh(_, __, update: Message):
+    return any(word in update.text.lower() for word in ['alakh'])
     
 ALAKH = filters.create(is_alakh)
 

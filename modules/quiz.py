@@ -37,14 +37,14 @@ Name = {member.chat.title}
             pass
 
 
-@zenova.on_message(filters.command(['quiz'], prefixes='/'))
+@zenova.on_message(filters.command(['quiz'], prefixes='/' & filters.group))
 async def quiz_mode(client, message: Message):
     chat_id = message.chat.id
     msg_id = message.id
-    # if group type is not group
-    if message.chat.type != 'GROUP' or message.chat.type != 'SUPERGROUP':
-        await message.reply('🚫 This command can only be used in groups.', reply_to_message_id=msg_id)
-        return
+    # # if group type is not group
+    # if message.chat.type != 'GROUP' or message.chat.type != 'SUPERGROUP':
+    #     await message.reply('🚫 This command can only be used in groups.', reply_to_message_id=msg_id)
+    #     return
     if not await is_admin(message.chat.id, message.from_user.id):
         await message.reply('🚫 You don\'t have access to this command.', reply_to_message_id=msg_id)
         return
