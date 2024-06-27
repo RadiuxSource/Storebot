@@ -7,6 +7,7 @@ from pyrogram import filters
 from pyrogram.enums import ChatMemberStatus
 from pyrogram import enums
 from config import ADMINS
+from zenova import zenova
 from pyrogram.errors.exceptions.bad_request_400 import UserNotParticipant
 from pyrogram.errors import FloodWait
 
@@ -115,3 +116,10 @@ def get_readable_time(seconds: int) -> str:
 
 
 subscribed = filters.create(is_subscribed)
+
+async def is_admin(chat_id, user_id):
+    chat_member = await zenova.get_chat_member(chat_id, user_id)
+    return chat_member.status in [
+        "creator",
+        "administrator"
+    ]
