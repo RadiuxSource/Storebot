@@ -1,8 +1,9 @@
 from zenova import zenova, BOT_ID
-import requests, json
+import requests, json, asyncio
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from database.database import present_group, add_group, unpresent_quizzez, add_quizzez, del_quizzez, full_quizzezbase, full_groupbase
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+from pyrogram.errors import FloodWait, InputUserDeactivated, PeerIdInvalid, ChatWriteForbidden, MessageTooLong
 from pyrogram.enums import PollType
 from config import DB_URI
 from config2 import LOGGER_ID
@@ -13,7 +14,7 @@ from pyrogram.types import ChatMemberUpdated
 
 API_URL = "https://chatgpt.apinepdev.workers.dev/?question="
 scheduler = AsyncIOScheduler()
-
+failed_chats = []
 
 @zenova.on_chat_member_updated(filters.group, group=-3)
 async def greet_group(_, member: ChatMemberUpdated):
@@ -40,6 +41,20 @@ Name = {member.chat.title}
 @zenova.on_message(filters.command('quiz') & filters.group)
 async def quiz_mode(client, message: Message):
     chat_id = message.chat.id
+    present, count = await present_group(chat_id)
+    if not present:
+        try:
+            await add_group(chat_id)
+            INFO = f'''
+#NewChat
+
+Total chats = [{int(count) + 1}]
+Chat id = {chat_id}
+Name = {message.chat.title}
+'''
+            await zenova.send_message(LOGGER_ID, INFO)
+        except:
+            pass
     msg_id = message.id
     # # if group type is not group
     # if message.chat.type != 'GROUP' or message.chat.type != 'SUPERGROUP':
@@ -82,13 +97,36 @@ async def send_quiz():
     quizzez_chats = await full_quizzezbase()
     for chat_id in groups:
         if chat_id not in quizzez_chats:
-            try:
-                question = await get_question()
-                options = question["options"]
-                correct_option_id = question["correct_option_id"]
-                poll = await zenova.send_poll(chat_id, question["question"], options, is_anonymous= False, type=PollType.QUIZ, correct_option_id= correct_option_id, explanation= 'Note: AI-generated quiz. Verify answers independently.',)
-            except Exception as e:
-                print(f"Error sending quiz to chat {chat_id}: {e}")
+            await send_polls(int(chat_id))
+            
+async def send_polls(chat_id: int):
+    try:
+        question = await get_question()
+        options = question["options"]
+        correct_option_id = question["correct_option_id"]
+        poll = await zenova.send_poll(int(chat_id), question["question"], options, is_anonymous= False, type=PollType.QUIZ, correct_option_id= int(correct_option_id), explanation= 'Note: AI-generated quiz. Verify answers independently.',)
+    except FloodWait as e:
+        await asyncio.sleep(e.value)
+        return await send_polls(chat_id)
+    except InputUserDeactivated:
+        print(f"{chat_id} : Deactivated")
+        failed_chats.append(chat_id)
+        return 400
+    except PeerIdInvalid:
+        print(f"{chat_id} : PeerIdInvalid")
+        failed_chats.append(chat_id)
+        return 400
+    except ChatWriteForbidden:
+        print(f"{chat_id} : Invalid ID")
+        failed_chats.append(chat_id)
+        return 400
+    except MessageTooLong:
+        print(f"{chat_id} : Message too long")
+        return await send_polls(chat_id)
+    except Exception as e:
+        print(f"Error sending quiz to chat {chat_id}: {e}")
+        return 500
+            
 
 scheduler.add_job(send_quiz, 'interval', minutes=10)
 scheduler.start()

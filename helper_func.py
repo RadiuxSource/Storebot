@@ -118,8 +118,13 @@ def get_readable_time(seconds: int) -> str:
 subscribed = filters.create(is_subscribed)
 
 async def is_admin(chat_id, user_id):
-    chat_member = await zenova.get_chat_member(chat_id, user_id)
-    return chat_member.status in [
-        "creator",
-        "administrator"
-    ]
+    try:
+        chat_member = await zenova.get_chat_member(chat_id, user_id)
+        status = chat_member.status
+        if status == enums.ChatMemberStatus.ADMINISTRATOR or status == enums.ChatMemberStatus.OWNER:
+            return True
+        else:
+            return False
+    except Exception as e:
+        print(f"Error checking admin power: {e}")
+        return False

@@ -19,6 +19,7 @@ async def handle_alakh(message):
 
 
 async def is_alakh(_, __, update: Message):
+    if not update.text: return False
     return any(word in update.text.lower() for word in ['alakh'])
     
 ALAKH = filters.create(is_alakh)
