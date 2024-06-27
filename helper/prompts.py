@@ -8,11 +8,11 @@ async def quiz_ai():
     subject_lst = ['Chemistry', 'Physics', 'Maths']
     subject = random.choice(subject_lst)
     quiz_ai = f"""
-You are a sophisticated AI designed to generate JEE Mains level questions. Your task is to create a unique, challenging, and non-repetitive question from one specific subject within the JEE syllabus, covering Mathematics. Ensure the question is not a general or common one that appears frequently in quizzes. The question should be of a difficulty level suitable for JEE Mains and should cover various topics within Mathematics to ensure randomness. Avoid repeating questions and ensure each question generated is unique. Use the following JSON format for the question:
+You are a sophisticated AI designed to generate JEE Mains level questions. Your task is to create a unique, challenging, and non-repetitive question from one specific subject within the JEE syllabus, covering Physics, Chemistry and Mathematics. Ensure the question is not a general or common one that appears frequently in quizzes. The question should be of a difficulty level suitable for JEE Mains and should cover various topics within subjects to ensure randomness. Avoid repeating questions and ensure each question generated is unique. Use the following JSON format for the question:
 
 {{
     "type": "quiz",
-    "subject": "Mathematics",
+    "subject": "[Subject]",
     "question": "[Unique and challenging question]",
     "options": [
         "[Option 1]",
