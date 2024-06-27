@@ -37,7 +37,7 @@ Name = {member.chat.title}
             pass
 
 
-@zenova.on_message(filters.command(['quiz'], prefixes='/' & filters.group))
+@zenova.on_message(filters.command('quiz') & filters.group)
 async def quiz_mode(client, message: Message):
     chat_id = message.chat.id
     msg_id = message.id
