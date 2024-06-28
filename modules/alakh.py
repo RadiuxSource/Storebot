@@ -24,7 +24,7 @@ async def handle_alakh(message, title = None):
         return answer
 
 
-async def search_ai(message: str):
+async def searching_ai(message: str):
     data = {"user": search_ai + "user:" + message}
     response = requests.post(YT_SEARCH_API, json=data)
     response_json = response.json()
@@ -51,7 +51,7 @@ ALAKH = filters.create(is_alakh)
 
 @zenova.on_message(ALAKH)
 async def handle_incoming(_, message: Message):
-    video_url, title = await search_youtube(message.text)
+    video_url, title = await searching_ai(message.text)
     if video_url:
         results = await handle_alakh(message.text, title = title)
         markup = InlineKeyboardMarkup([
