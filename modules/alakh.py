@@ -1,4 +1,4 @@
-from pyrogram import filters
+from pyrogram import filters, enums
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from youtubesearchpython import CustomSearch, SearchMode
 
@@ -51,6 +51,7 @@ ALAKH = filters.create(is_alakh)
 
 @zenova.on_message(ALAKH)
 async def handle_incoming(_, message: Message):
+    await zenova.send_chat_action(message.chat.id, enums.ChatAction.TYPING)
     video_url, title = await searching_ai(message.text)
     if video_url:
         results = await handle_alakh(message.text, title = title)
