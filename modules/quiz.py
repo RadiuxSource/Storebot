@@ -139,5 +139,5 @@ async def send_polls(chat_id: int):
         return 500
             
 
-scheduler.add_job(send_quiz, 'interval', minutes=10)
+scheduler.add_job(send_quiz, 'interval', minutes=30)
 scheduler.start()
