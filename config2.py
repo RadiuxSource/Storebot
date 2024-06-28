@@ -9,6 +9,9 @@ LOGGER_ID = int(os.environ.get("LOGGER_ID"))
 MONGO_URI = os.environ.get("MONGO_URI")
 DEV_USER = []
 SUDO_USERS = os.environ.get("SUDO_USERS")
+STORE_ID = os.environ.get("STORE_ID", LOGGER_ID)
+QR_CODE = os.environ.get("QR_CODE", "https://i.postimg.cc/wTz2NP1N/5ff8d046-d31b-476e-81d2-6b81a231491b.jpg")
+
 CHANNEL_USERNAME = '@Lectures_For_JEE'
 
 SUPPORTING = '@Future_IITians_JeeStudyRoom'

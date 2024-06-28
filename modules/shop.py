@@ -1,19 +1,19 @@
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message, CallbackQuery
 from zenova import zenova
-from config2 import LOGGER_ID, DB_GROUP_ID
-from config import ADMINS, QR_CODE
+from config2 import LOGGER_ID, STORE_ID, QR_CODE
+from config import ADMINS
 import pyrostep
 import os
 
 pyrostep.listen(zenova)
 shop_list = []
 
-@zenova.on_message(filters.command("add") & filters.group(DB_GROUP_ID) & filters.user(ADMINS))
+@zenova.on_message(filters.command("add") & filters.group(STORE_ID) & filters.user(ADMINS))
 async def add_to_shop(client, message: Message):
     await message.reply_text("Enter the message to add to the shop: 🛍️")
     msg: Message = await pyrostep.wait_for(message.chat.id)
-    sent_msg = await zenova.copy_message(DB_GROUP_ID, msg.chat.id, msg.id)
+    sent_msg = await zenova.copy_message(STORE_ID, msg.chat.id, msg.id)
     shop_list.append(sent_msg.message_id)
     await message.reply_text("Message added to the shop successfully! 👍")
 
@@ -26,7 +26,7 @@ async def shop(client, message):
     await send_shop_message(message, current_msg_id, 0)
 
 async def send_shop_message(message: Message, msg_id, index):
-    msg = await zenova.get_messages(DB_GROUP_ID, msg_id)
+    msg = await zenova.get_messages(STORE_ID, msg_id)
     keyboard = InlineKeyboardMarkup([ 
         [InlineKeyboardButton("Buy Now 💸", callback_data=f"buy_{index}")], 
         [InlineKeyboardButton("Prev 🔙", callback_data=f"Sprev_{index}"), 
@@ -42,7 +42,7 @@ async def shop_callback(client, callback_query: CallbackQuery):
         index = int(data.split("_")[1])
         new_index = (index - 1) % len(shop_list)
         new_msg_id = shop_list[new_index]
-        new_msg: Message =await zenova.get_messages(DB_GROUP_ID, new_msg_id)
+        new_msg: Message =await zenova.get_messages(STORE_ID, new_msg_id)
         photo_file = await zenova.download_media(message=new_msg, file_name=f'photo_{id}.jpg')
         await callback_query.message.edit_media(photo_file)
         await callback_query.message.edit_text(new_msg.text, reply_markup=InlineKeyboardMarkup([ 
@@ -55,7 +55,7 @@ async def shop_callback(client, callback_query: CallbackQuery):
         index = int(data.split("_")[1])
         new_index = (index + 1) % len(shop_list)
         new_msg_id = shop_list[new_index]
-        new_msg: Message =await zenova.get_messages(DB_GROUP_ID, new_msg_id)
+        new_msg: Message =await zenova.get_messages(STORE_ID, new_msg_id)
         photo_file = await zenova.download_media(message=new_msg, file_name=f'photo_{id}.jpg')
         await callback_query.message.edit_media(photo_file)
         await callback_query.message.edit_text((new_msg).text, reply_markup=InlineKeyboardMarkup([ 
@@ -79,7 +79,7 @@ async def buy_callback(client, callback_query):
     if data.startswith("yes"):
         index = int(data.split("_")[1])
         msg_id = shop_list[index]
-        msg = await client.get_messages(DB_GROUP_ID, msg_id)
+        msg = await client.get_messages(STORE_ID, msg_id)
         await callback_query.message.reply_photo(QR_CODE, caption="Pay on this QR code 💳 and send the screenshot of payment and wait for confirmation, You can also DM to my owner to know the status: @Haaye_Aman")
         await client.send_message(LOGGER_ID, f"New Order 📝\n\nPurchaser: {callback_query.from_user.id}", reply_to_message_id=msg_id)
     elif data.startswith("no"):
