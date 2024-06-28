@@ -10,6 +10,7 @@ MONGO_URI = os.environ.get("MONGO_URI")
 DEV_USER = []
 SUDO_USERS = os.environ.get("SUDO_USERS")
 CHANNEL_USERNAME = '@Lectures_For_JEE'
+DB_GROUP_ID = int(os.environ.get("DB_GROUP_ID"))
 
 SUPPORTING = '@Future_IITians_JeeStudyRoom'
 UPDATE = "https://t.me/+lkWsNLrl-Qs4NDQ1"
