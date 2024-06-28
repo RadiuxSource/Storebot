@@ -13,3 +13,4 @@ asyncio==3.4.3
 datetime
 pytz
 APScheduler
+youtube-search-python
