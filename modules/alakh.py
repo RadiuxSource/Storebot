@@ -11,13 +11,17 @@ import requests
 API_URL = "https://chatgpt.apinepdev.workers.dev/?question="
 YT_SEARCH_API = "https://chat-gpt.hazex.workers.dev/"  
 
-async def handle_alakh(message):
+async def handle_alakh(message, title = None):
     txt = message
     async with aiohttp.ClientSession() as session:
-         async with session.get(f"{API_URL}'prompt' :{alakh_ai},'user':{txt}") as response:
-            data = await response.text()
-            answer = json.loads(data)['answer']
-            return answer
+        if title:
+             async with session.get(f"{API_URL}'prompt' :{alakh_ai}, 'title': {title}, 'user':{txt}") as response:
+                 data = await response.text()
+        else:
+            async with session.get(f"{API_URL}'prompt' :{alakh_ai},'title': None, 'user':{txt}") as response:
+                data = await response.text()
+        answer = json.loads(data)['answer']
+        return answer
 
 
 async def search_ai(message: str):
@@ -46,13 +50,14 @@ async def is_alakh(_, __, update: Message):
 ALAKH = filters.create(is_alakh)
 
 @zenova.on_message(ALAKH)
-async def handle_incoming(_, message):
-    results = await handle_alakh(message.text)
-    video_url, title = await search_youtube(results)
+async def handle_incoming(_, message: Message):
+    video_url, title = await search_youtube(message.text)
     if video_url:
+        results = await handle_alakh(message.text, title = title)
         markup = InlineKeyboardMarkup([
             [InlineKeyboardButton(title, url=video_url)]
         ])
         await message.reply(results, reply_markup=markup)
     else:
+        results = await handle_alakh(message.text)
         await message.reply(results)
