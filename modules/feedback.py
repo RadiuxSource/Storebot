@@ -9,7 +9,7 @@ async def feedback(client, message):
     await message.reply_text("Please enter your feedback now:")
 
     # Wait for the user to send the feedback message
-    feedback_msg = await pyrostep.wait_for(message.chat.id, message.from_user.id)
+    feedback_msg = await pyrostep.wait_for(message.chat.id)
     feedback_text = feedback_msg.text
     try:
         if feedback_text:

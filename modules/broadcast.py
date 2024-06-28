@@ -9,6 +9,7 @@ import pyrostep
 from zenova import zenova as cbot
 from db import present_user, full_userbase as get_users_list
 from config2 import LOGGER_ID as logger
+from config import ADMINS
 
 pyrostep.listen(cbot)
 
@@ -20,7 +21,7 @@ async def get_failed_users():
     global failed_users
     return failed_users
 
-@cbot.on_message(filters.command("broadcast") & filters.private)
+@cbot.on_message(filters.command("broadcast") & filters.private & filters.user(ADMINS))
 async def broadcast_handler(client, message):
     global preview_mode
 
