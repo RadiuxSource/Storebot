@@ -1,13 +1,11 @@
 pyrogram==2.0.106
 tgcrypto==1.2.5
-pyromod==1.5
 pymongo
 dnspython
 aiohttp
 Flask==2.2.2
 requests==2.31.0
 pyrostep
-psutil
 python-dotenv==1.0.0
 asyncio==3.4.3
 datetime
