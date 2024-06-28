@@ -17,6 +17,30 @@ async def add_to_shop(client, message: Message):
     shop_list.append(sent_msg.id)
     await message.reply_text("Message added to the shop successfully! 👍")
 
+@zenova.on_message(filters.command("list") & filters.user(ADMINS))
+async def list_shop(client, message: Message):
+    if not shop_list:
+        await message.reply_text("The shop is empty! 😔")
+        return
+    text = "List of all the messages in the shop:\n\n"
+    for i, msg_id in enumerate(shop_list.copy()):
+        text += f"{i+1}. {msg_id}\n"
+    await message.reply_text(text)
+
+#function to delete a id
+@zenova.on_message(filters.command("del") & filters.user(ADMINS))
+async def delete_from_shop(client, message: Message):
+    if not shop_list:
+        await message.reply_text("The shop is empty! 😔")
+        return
+    await message.reply_text("Enter the message ID to delete from the shop: 🛍️")
+    msg: Message = await pyrostep.wait_for(message.from_user.id)
+    if msg.text:
+        shop_list.remove(msg.text)
+        await message.reply_text("Message deleted from the shop successfully! 👍")
+    else:
+        await message.reply_text("Invalid message ID. Please enter a valid message ID.")
+
 @zenova.on_message(filters.command("shop"))
 async def shop(client, message):
     try:
@@ -90,7 +114,7 @@ async def shop_callback(client, callback_query: CallbackQuery):
             ])
             await callback_query.message.edit_text("Are you sure you want to buy this? 🤔", reply_markup=keyboard)
     except Exception as e:
-        await callback_query.message.reply_text("Error: Unable to process callback query. 😕")
+        await callback_query.message.reply_text("Error: Unable to process query. 😕")
         print(f"Error: {e}")
 
 @zenova.on_callback_query(filters.regex(r"yes|no"))
@@ -100,7 +124,7 @@ async def buy_callback(client, callback_query: CallbackQuery):
         index = int(data.split("_")[1])
         msg_id = shop_list[index]
         msg = await client.get_messages(STORE_ID, msg_id)
-        await callback_query.message.reply_photo(QR_CODE, caption="Pay on this QR code 💳 and send the screenshot of payment and wait for confirmation, You can also DM to my owner to know the status: @Haaye_Aman")
+        await callback_query.message.reply_photo(QR_CODE, "Pay on this QR code 💳 and send the screenshot of payment and wait for confirmation, You can also DM to my owner to know the status: @Haaye_Aman")
         await client.send_message(LOGGER_ID, f"New Order 📝\n\nPurchaser: {callback_query.from_user.id}", reply_to_message_id=msg_id)
         await callback_query.message.delete()
     elif data.startswith("no"):
