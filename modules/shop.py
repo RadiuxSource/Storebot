@@ -94,7 +94,7 @@ async def shop_callback(client, callback_query: CallbackQuery):
         print(f"Error: {e}")
 
 @zenova.on_callback_query(filters.regex(r"yes|no"))
-async def buy_callback(client, callback_query):
+async def buy_callback(client, callback_query: CallbackQuery):
     data = callback_query.data
     if data.startswith("yes"):
         index = int(data.split("_")[1])
@@ -102,5 +102,6 @@ async def buy_callback(client, callback_query):
         msg = await client.get_messages(STORE_ID, msg_id)
         await callback_query.message.reply_photo(QR_CODE, caption="Pay on this QR code 💳 and send the screenshot of payment and wait for confirmation, You can also DM to my owner to know the status: @Haaye_Aman")
         await client.send_message(LOGGER_ID, f"New Order 📝\n\nPurchaser: {callback_query.from_user.id}", reply_to_message_id=msg_id)
+        await callback_query.message.delete()
     elif data.startswith("no"):
         await callback_query.message.edit_text("Order cancelled! 😔")
