@@ -9,12 +9,12 @@ import os
 pyrostep.listen(zenova)
 shop_list = []
 
-@zenova.on_message(filters.command("add") & filters.group(STORE_ID) & filters.user(ADMINS))
+@zenova.on_message(filters.command("add") & filters.user(ADMINS))
 async def add_to_shop(client, message: Message):
     await message.reply_text("Enter the message to add to the shop: 🛍️")
     msg: Message = await pyrostep.wait_for(message.chat.id)
-    sent_msg = await zenova.copy_message(STORE_ID, msg.chat.id, msg.id)
-    shop_list.append(sent_msg.message_id)
+    sent_msg: Message = await zenova.copy_message(STORE_ID, msg.chat.id, msg.id)
+    shop_list.append(sent_msg.id)
     await message.reply_text("Message added to the shop successfully! 👍")
 
 @zenova.on_message(filters.command("shop"))
