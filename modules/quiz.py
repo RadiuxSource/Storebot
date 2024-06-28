@@ -1,20 +1,30 @@
-from zenova import zenova, BOT_ID
-import requests, json, asyncio
+# External libraries
+import requests
+import json
+import asyncio
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from database.database import present_group, add_group, unpresent_quizzez, add_quizzez, del_quizzez, full_quizzezbase, full_groupbase
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+from pyrogram import filters
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message, ChatMemberUpdated
 from pyrogram.errors import FloodWait, InputUserDeactivated, PeerIdInvalid, ChatWriteForbidden, MessageTooLong
 from pyrogram.enums import PollType
+
+# Local modules
+from zenova import zenova, BOT_ID
+from database.database import present_group, add_group, unpresent_quizzez, add_quizzez, del_quizzez, full_quizzezbase, full_groupbase
 from config import DB_URI
 from config2 import LOGGER_ID
 from helper_func import is_admin
 from helper.prompts import quiz_ai
-from pyrogram import filters
-from pyrogram.types import ChatMemberUpdated
 
+# API URL
 API_URL = "https://chatgpt.apinepdev.workers.dev/?question="
+
+# Scheduler
 scheduler = AsyncIOScheduler()
+
+# Failed chats list
 failed_chats = []
+
 
 @zenova.on_chat_member_updated(filters.group, group=-3)
 async def greet_group(_, member: ChatMemberUpdated):
@@ -102,6 +112,7 @@ async def send_quiz():
 async def send_polls(chat_id: int):
     try:
         question = await get_question()
+        question = json.loads(question)
         options = question["options"]
         correct_option_id = question["correct_option_id"]
         poll = await zenova.send_poll(int(chat_id), question["question"], options, is_anonymous= False, type=PollType.QUIZ, correct_option_id= int(correct_option_id), explanation= 'Note: AI-generated quiz. Verify answers independently.',)
