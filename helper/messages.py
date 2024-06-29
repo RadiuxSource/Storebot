@@ -36,7 +36,6 @@ START_BTN = InlineKeyboardMarkup([
 
 CMD_LIST = """
 ```List of commands in this bot:
-
 /start - Start the bot
 
 /help - Get help and information about the bot
