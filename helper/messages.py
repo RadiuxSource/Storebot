@@ -2,7 +2,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 import config2 as config
 
 
-START_TXT= '''👋 **Wᴇʟᴄᴏᴍᴇ ᴛᴏ Zᴇɴᴏᴠᴀ Lᴇᴄᴛᴜʀᴇs Bᴏᴛ!**
+START_TXT= """👋 **Wᴇʟᴄᴏᴍᴇ ᴛᴏ Zᴇɴᴏᴠᴀ Lᴇᴄᴛᴜʀᴇs Bᴏᴛ!**
 
 Get ready for an enriching learning experience with free lectures from various teachers!
 
@@ -15,16 +15,16 @@ Get ready for an enriching learning experience with free lectures from various t
 ```Use /help to know more.```
 
 Enjoy your learning journey with us! 🚀📖
-'''
+"""
 
 
-NOTICE_TXT = '''
+NOTICE_TXT = """
 ```🚨 Attention! Your Feedback Needed! 🚨
 
 Hey there! We're constantly looking to improve our bot, and we need YOUR input! Besides lectures, what new features would you like to see? Use the /feedback command to share your ideas and suggestions.
 
 💡 Your ideas can make a difference! 💡```
-'''
+"""
 
 
 
@@ -80,8 +80,8 @@ HELP_MARKUP = InlineKeyboardMarkup([
         InlineKeyboardButton("📜 𝐂ᴏᴍᴍᴀɴᴅs", callback_data="commands")
     ],
     [
-        InlineKeyboardButton("Uᴘᴅᴀᴛᴇs", url=config.UPDATE),
-        InlineKeyboardButton("Sᴜᴘᴘᴏʀᴛ", url=config.SUPPORT)
+        InlineKeyboardButton("𝐔ᴘᴅᴀᴛᴇs", url=config.UPDATE),
+        InlineKeyboardButton("𝐒ᴜᴘᴘᴏʀᴛ", url=config.SUPPORT)
     ],
     [
         InlineKeyboardButton("𝐂ᴏᴍᴘᴀɴɪᴏɴ 𝐁ᴏᴛ", url=companion_bot_url)
