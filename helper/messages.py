@@ -11,17 +11,17 @@ Get ready for an enriching learning experience with free lectures from various t
 
 💡 **Need Help?** **Visit our support group for assistance.**
 
-```Use /help to know more.```
+**Use /help to know more.**
 
 Enjoy your learning journey with us! 🚀📖
 """
 
 NOTICE_TXT = """
-```🚨 Attention! Your Feedback Needed! 🚨
+🚨 Attention! Your Feedback Needed! 🚨
 
 Hey there! We're constantly looking to improve our bot, and we need YOUR input! Besides lectures, what new features would you like to see? Use the /feedback command to share your ideas and suggestions.
 
-💡 Your ideas can make a difference! 💡```
+💡 Your ideas can make a difference! 💡
 """
 
 START_BTN = InlineKeyboardMarkup([
