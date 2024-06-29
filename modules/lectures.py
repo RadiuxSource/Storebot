@@ -62,7 +62,7 @@ async def handle_callback(_, query):
                 buttons.append(row)
             buttons.append([InlineKeyboardButton("✾ 𝚂𝚄𝙱𝙹𝙴𝙲𝚃𝚂 ✾", callback_data="subject")])
             reply_markup = InlineKeyboardMarkup(buttons)
-            await query.message.edit_text(f"﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌\n\nChoose a Teacher for {subject} : 💐", reply_markup=reply_markup)
+            await query.message.edit_text(f"﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌\n\n**Choose a Teacher for {subject} :** 💐", reply_markup=reply_markup)
         else:
             await query.message.edit_text("Failed to fetch data from the API. Please try again later.")
     elif query.data == "subject":
