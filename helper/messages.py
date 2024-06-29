@@ -12,7 +12,7 @@ Get ready for an enriching learning experience with free lectures from various t
 
 💡 **𝐍ᴇᴇᴅ 𝐇ᴇʟᴘ?** **Visit our support group for assistance.**
 
-```**Use /help to know more.**```
+```Use /help to know more.```
 
 Enjoy your learning journey with us! 🚀📖
 '''
@@ -23,7 +23,8 @@ NOTICE_TXT = '''
 
 Hey there! We're constantly looking to improve our bot, and we need YOUR input! Besides lectures, what new features would you like to see? Use the /feedback command to share your ideas and suggestions.
 
-💡 Your ideas can make a difference! 💡```'''
+💡 Your ideas can make a difference! 💡```
+'''
 
 
 
@@ -32,9 +33,9 @@ START_BTN = InlineKeyboardMarkup([
         InlineKeyboardButton("🕵️‍♂️ 𝐇ᴇʟᴘ", callback_data="help_back"),
         InlineKeyboardButton("📜 𝐂ᴏᴍᴍᴀɴᴅs", callback_data="commands")
     ],
-    [InlineKeyboardButton("Uᴘᴅᴀᴛᴇs", url=config.UPDATE),
-    InlineKeyboardButton("Sᴜᴘᴘᴏʀᴛ", url=config.SUPPORT)],
-    [InlineKeyboardButton("Aᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘ!", url=config.Bot_join_url)]
+    [InlineKeyboardButton("𝐔ᴘᴅᴀᴛᴇs", url=config.UPDATE),
+    InlineKeyboardButton("𝐒ᴜᴘᴘᴏʀᴛ", url=config.SUPPORT)],
+    [InlineKeyboardButton("𝐀ᴅᴅ 𝐌ᴇ 𝐓ᴏ 𝐘ᴏᴜʀ 𝐆ʀᴏᴜᴘ!", url=config.Bot_join_url)]
 ])
 
 
