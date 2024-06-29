@@ -6,24 +6,24 @@ START_TXT= '''👋 **Wᴇʟᴄᴏᴍᴇ ᴛᴏ Zᴇɴᴏᴠᴀ Lᴇᴄᴛᴜʀ�
 
 Get ready for an enriching learning experience with free lectures from various teachers!
 
-📚 **Browse Subjects**: Explore lectures on Physics, Maths, Organic Chemistry, and more.
+📚 **𝐁ʀᴏᴡsᴇ 𝐒ᴜʙᴊᴇᴄᴛs**: **Explore lectures on Physics, Maths, Organic Chemistry, and more.**
 
-🎓 **Expert Teachers**: Learn from experienced educators who cover essential topics.
+🎓 **𝐄xᴘᴇʀᴛ 𝐓ᴇᴀᴄʜᴇʀs**: **Learn from experienced educators who cover essential topics.**
 
-💡 **Need Help?** Visit our support group for assistance.
+💡 **𝐍ᴇᴇᴅ 𝐇ᴇʟᴘ?** **Visit our support group for assistance.**
 
-Use /help to know more.
+```**Use /help to know more.**```
 
 Enjoy your learning journey with us! 🚀📖
 '''
 
 
 NOTICE_TXT = '''
-🚨 Attention! Your Feedback Needed! 🚨
+```🚨 Attention! Your Feedback Needed! 🚨
 
 Hey there! We're constantly looking to improve our bot, and we need YOUR input! Besides lectures, what new features would you like to see? Use the /feedback command to share your ideas and suggestions.
 
-💡 Your ideas can make a difference! 💡'''
+💡 Your ideas can make a difference! 💡```'''
 
 
 
@@ -39,7 +39,7 @@ START_BTN = InlineKeyboardMarkup([
 
 
 CMD_LIST = """
-List of commands in this bot:
+```List of commands in this bot:
 
 /start - Start the bot
 
@@ -49,7 +49,7 @@ List of commands in this bot:
 
 /feedback - To share your feedbacks.
 
-/ping - Check weather bot is alive or not
+/ping - Check weather bot is alive or not```
 
 """
 
@@ -58,15 +58,15 @@ HELP_MSG = '''Hello! 🤗 Need some help with Zenova Lectures Bot? Here are som
 
 🔹 Firstly, Start our Companion bot by clicking on the below button.
 
-🔹 Browse Lectures: Find lectures on various subjects, including Physics, Maths, Organic Chemistry, and more. Simply type /lecture to view the list.
+🔹 **Browse Lectures**: Find lectures on various subjects, including Physics, Maths, Organic Chemistry, and more. Simply type /lecture to view the list.
 
-🔹 Feedback: We'd love to hear your thoughts! Share your feedback with us at support group.
+🔹 **Feedback**: We'd love to hear your thoughts! Share your feedback with us at support group.
 
-🔹 Help and Support: If you need assistance, visit our support group or type /help.
+🔹 **Help and Support**: If you need assistance, visit our support group or type /help.
 
 👉 For a list of all available commands, click the "📜 𝐂ᴏᴍᴍᴀɴᴅs" button below.
 
-Happy learning with Zenova Lectures Bot! 📚🚀'''
+**Happy learning with Zenova Lectures Bot! 📚🚀**'''
 
 
 
@@ -100,14 +100,14 @@ CMD_MARKUP = InlineKeyboardMarkup([
 
 SUBJECTS_BTN = [
     [
-        InlineKeyboardButton("߷︎ 𝐏𝙷𝚈𝚂𝙸𝙲𝚂 ߷︎", callback_data="subject_physics"),
-        InlineKeyboardButton("߷︎ 𝐌𝙰𝚃𝙷𝚂 ߷︎", callback_data="subject_maths"),
+        InlineKeyboardButton("𝐏𝙷𝚈𝚂𝙸𝙲𝚂", callback_data="subject_physics"),
+        InlineKeyboardButton("𝐌𝙰𝚃𝙷𝚂", callback_data="subject_maths"),
     ],
     [
         InlineKeyboardButton("𝐎𝚁𝙶𝙰𝙽𝙸𝙲 𝐂𝙷𝙴𝙼𝙸𝚂𝚃𝚁𝚈", callback_data="subject_organic"),
         InlineKeyboardButton("𝐈𝙽𝙾𝚁𝙶𝙰𝙽𝙸𝙲 𝐂𝙷𝙴𝙼𝙸𝚂𝚃𝚁𝚈", callback_data="subject_inorganic"),
     ],
     [
-        InlineKeyboardButton("߷︎ 𝐏𝙷𝚈𝚂𝙸𝙲𝙰𝙻 𝐂𝙷𝙴𝙼𝙸𝚂𝚃𝚁𝚈߷︎ ", callback_data="subject_physical"),
+        InlineKeyboardButton("𝐏𝙷𝚈𝚂𝙸𝙲𝙰𝙻 𝐂𝙷𝙴𝙼𝙸𝚂𝚃𝚁𝚈", callback_data="subject_physical"),
     ]
 ]
