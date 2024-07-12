@@ -22,6 +22,7 @@ NOTICE_TXT = """
 🚨 Attention! Your Feedback Needed! 🚨
 
 Hey there! We're constantly looking to improve our bot, and we need YOUR input! Besides lectures, what new features would you like to see? Use the /feedback command to share your ideas and suggestions.
+Also you can request any type of lectures, courses, material to be available in the shop at most affordable way possible.
 
 💡 Your ideas can make a difference! 💡
 """
@@ -40,7 +41,7 @@ START_BTN = InlineKeyboardMarkup([
 
 
 CMD_LIST = """
-List of commands in this bot:
+**List of commands in this bot:**
 
 **/start** : Start the bot 💝
 
@@ -48,7 +49,11 @@ List of commands in this bot:
 
 **/lecture** : Get lectures of different subjects and teachers ❣️
 
-**/feedback** : To share your feedbacks. 💌
+**/shop** : Get paid courses, Mentorship, Membership at affordable prices ❤‍🩹
+
+**/quiz on/off** : Get hourly quizes in your gropus 💕
+
+**/feedback** : Share your feedbacks or request paid materials 💌
 
 **/ping** : Check weather bot is alive or not 💖
 
