@@ -18,13 +18,13 @@ async def handle_alakh(message, title = None):
         if title:
             blackbox = Blackbox()
             payload = f"'title': {title}, 'user': {txt}"
-            data = blackbox.request(content, alakh_ai)
+            data = blackbox.request(payload, alakh_ai)
              # async with session.get(f"{API_URL}'prompt' :{alakh_ai}, 'title': {title}, 'user':{txt}") as response:
              #     data = await response.text()
         else:
             blackbox = Blackbox()
             payload = f"'title': None, 'user': {txt}"
-            data = blackbox.request(content, alakh_ai)
+            data = blackbox.request(payload, alakh_ai)
         answer = json.loads(data)['answer']
         return answer
 
