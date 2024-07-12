@@ -66,11 +66,13 @@ async def shop_callback(client, callback_query: CallbackQuery):
             new_index = (index - 1) % len(shop_list)
             new_msg_id = shop_list[new_index]
             await send_shop_message(callback_query.message, new_msg_id, new_index)
+            await callback_query.message.delete()  
         elif data.startswith("Snext"):
             index = int(data.split("_")[1])
             new_index = (index + 1) % len(shop_list)
             new_msg_id = shop_list[new_index]
             await send_shop_message(callback_query.message, new_msg_id, new_index)
+            await callback_query.message.delete()  
         elif data.startswith("buy"):
             index = int(data.split("_")[1])
             keyboard = InlineKeyboardMarkup([
