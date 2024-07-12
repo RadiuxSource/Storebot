@@ -19,15 +19,13 @@ Enjoy your learning journey with us! 🚀📖
 
 
 NOTICE_TXT = """
-🚨 Attention! Your Feedback Needed! 🚨
+🚨 **Attention! Your Feedback Needed!** 🚨
 
 Hey there! We're constantly looking to improve our bot, and we need YOUR input! Besides lectures, what new features would you like to see? Use the /feedback command to share your ideas and suggestions.
-Also you can request any type of lectures, courses, material to be available in the shop at most affordable way possible.
+Also you can request any type of lectures, courses, material to be available in the **shop at most affordable way** possible.
 
-💡 Your ideas can make a difference! 💡
+💡 **Your ideas can make a difference!** 💡 
 """
-
-
 
 START_BTN = InlineKeyboardMarkup([
     [
