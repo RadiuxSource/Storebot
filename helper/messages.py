@@ -30,7 +30,7 @@ Hey there! We're constantly looking to improve our bot, and we need YOUR input! 
 
 START_BTN = InlineKeyboardMarkup([
     [
-        InlineKeyboardButton("🕵️‍♂️ 𝐇ᴇʟᴘ", callback_data="help_back"),
+        InlineKeyboardButton("🕵️‍♂️ 𝐇ᴇʟᴘ", url=f"https://t.me/Jee_lecture_bot/zenova_ai"),
         InlineKeyboardButton("📜 𝐂ᴏᴍᴍᴀɴᴅs", callback_data="commands")
     ],
     [InlineKeyboardButton("𝐔ᴘᴅᴀᴛᴇs", url=config.UPDATE),
