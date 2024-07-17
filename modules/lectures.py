@@ -171,7 +171,7 @@ Link = {message.from_user.mention()}
 async def handle_callback(_, query):
     if query.data.startswith("subject_"):
         subject = query.data.split("_")[1]
-        response = requests.get(f"https://zenova-lec-api.vercel.app/teachers?subject={subject}")
+        response = requests.get(f"https://zenova-api-green.vercel.app/teachers?subject={subject}")
         if response.status_code == 200:
             teachers_data = response.json()
             teachers = teachers_data.get("teachers", [])
@@ -197,7 +197,7 @@ async def handle_callback(_, query):
         subject = data_parts[1]
         teacher_name = data_parts[2]
         print('teacher name:', teacher_name)
-        response = requests.get(f"https://zenova-lec-api.vercel.app/chapters?subject={subject}&teacher={teacher_name}")
+        response = requests.get(f"https://zenova-api-green.vercel.app/chapters?subject={subject}&teacher={teacher_name}")
         try:
             if response.status_code == 200:
                 chapters_data = response.json()
@@ -216,7 +216,7 @@ async def handle_callback(_, query):
         subject = data_parts[1]
         teacher_name = data_parts[2]
         chapter_name = data_parts[3]
-        response = requests.get(f"https://zenova-lec-api.vercel.app/lecture?subject={subject}&teacher={teacher_name}&ch={chapter_name}")
+        response = requests.get(f"https://zenova-api-green.vercel.app/lecture?subject={subject}&teacher={teacher_name}&ch={chapter_name}")
         if response.status_code == 200:
             lecture_link = response.json()["link"]
             shivabeta = [
@@ -253,7 +253,7 @@ async def send_previous_page(message, subject, teacher_name, previous_page):
     print('prev pg')
     try:
         # Fetch the chapters for the previous page
-        response = requests.get(f"https://zenova-lec-api.vercel.app/chapters?subject={subject}&teacher={teacher_name}")
+        response = requests.get(f"https://zenova-api-green.vercel.app/chapters?subject={subject}&teacher={teacher_name}")
         try:
             if response.status_code == 200:
                 chapters = response.json()["chapters"]
@@ -278,7 +278,7 @@ async def send_next_page(message, subject, teacher_name, nxt_page):
 
     # Fetch the chapters for the next page
     try:
-        response = requests.get(f"https://zenova-lec-api.vercel.app/chapters?subject={subject}&teacher={teacher_name}")    
+        response = requests.get(f"https://zenova-api-green.vercel.app/chapters?subject={subject}&teacher={teacher_name}")    
         if response.status_code == 200:
             chapters = response.json()["chapters"]
             print('got it')
