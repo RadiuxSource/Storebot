@@ -5,7 +5,7 @@ from zenova import zenova as app
 from config2 import ERROR_IMG, CHANNEL_USERNAME
 
 
-MUST_JOIN = @ZenovaPrime 
+MUST_JOIN = '@ZenovaPrime' 
 
 
 @app.on_message(filters.incoming & filters.private, group=-1)
