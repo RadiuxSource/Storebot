@@ -9,7 +9,7 @@ LOGGER_ID = int(os.environ.get("LOGGER_ID"))
 MONGO_URI = os.environ.get("MONGO_URI")
 DEV_USER = []
 SUDO_USERS = os.environ.get("SUDO_USERS")
-CHANNEL_USERNAME = '@Lectures_For_JEE'
+CHANNEL_USERNAME = '@ZenovaPrime'
 
 SUPPORTING = '@Future_IITians_JeeStudyRoom'
 UPDATE = "https://t.me/+lkWsNLrl-Qs4NDQ1"
