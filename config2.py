@@ -12,7 +12,7 @@ SUDO_USERS = os.environ.get("SUDO_USERS")
 STORE_ID = os.environ.get("STORE_ID", LOGGER_ID)
 QR_CODE = os.environ.get("QR_CODE", "https://i.postimg.cc/wTz2NP1N/5ff8d046-d31b-476e-81d2-6b81a231491b.jpg")
 
-CHANNEL_USERNAME = '@Lectures_For_JEE'
+CHANNEL_USERNAME = '@ZenovaPrime'
 DB_GROUP_ID = int(os.environ.get("DB_GROUP_ID"))
 
 SUPPORTING = '@Future_IITians_JeeStudyRoom'

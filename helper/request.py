@@ -4,7 +4,7 @@ import asyncio
 
 # @lru_cache(maxsize=None) 
 async def get_teachers(subject):
-    response = requests.get(f"https://zenova-lec-api.vercel.app/teachers?subject={subject}")
+    response = requests.get(f"https://zenova-api-green.vercel.app/teachers?subject={subject}")
     if response.status_code == 200:
         return response.json()
     else:
@@ -12,7 +12,7 @@ async def get_teachers(subject):
 
 # @lru_cache(maxsize=None)  
 async def get_chapters(subject, teacher_name):
-    response = requests.get(f"https://zenova-lec-api.vercel.app/chapters?subject={subject}&teacher={teacher_name}")
+    response = requests.get(f"https://zenova-api-green.vercel.app/chapters?subject={subject}&teacher={teacher_name}")
     if response.status_code == 200:
         return response.json()
     else:
@@ -20,7 +20,7 @@ async def get_chapters(subject, teacher_name):
 
 # @lru_cache(maxsize=None)  
 async def get_lecture_link(subject, teacher_name, chapter_name):
-    response = requests.get(f"https://zenova-lec-api.vercel.app/lecture?subject={subject}&teacher={teacher_name}&ch={chapter_name}")
+    response = requests.get(f"https://zenova-api-green.vercel.app/lecture?subject={subject}&teacher={teacher_name}&ch={chapter_name}")
     if response.status_code == 200:
         return response.json()["link"]
     else:

@@ -42,7 +42,7 @@ Link = {message.from_user.mention()}
     # Create the InlineKeyboardMarkup object
     reply_markup = InlineKeyboardMarkup(SUBJECTS_BTN)
     # Send the message with the inline keyboard
-    await message.reply_text("𝐂𝙷𝙾𝚂𝙴 𝙰 𝐒𝚄𝙱𝙹𝙴𝙲𝚃 𝐅𝚁𝙾𝙼 𝐁𝙴𝙻𝙾𝚆 𝐏𝙻𝙴𝙰𝚂𝙴 :", reply_markup=reply_markup)
+    await message.reply_text("━━━━━━━━━━━━━━━━━━━━━━\n\n𝙲𝙷𝙾𝙾𝚂𝙴 𝙰 𝚂𝚄𝙱𝙹𝙴𝙲𝚃 𝙵𝚁𝙾𝙼 𝙱𝙴𝙻𝙾𝚆 𝙿𝙻𝙴𝙰𝚂𝙴 🥀 :", reply_markup=reply_markup)
 
 @Bot.on_callback_query(filters.regex(re.compile('subject_|subject|teacher_|chapter_|prev_page_|next_page_')))
 async def handle_callback(_, query):
@@ -60,14 +60,14 @@ async def handle_callback(_, query):
                     row = []
             if row:
                 buttons.append(row)
-            buttons.append([InlineKeyboardButton("×͜× SUBJECTS ×͜×", callback_data="subject")])
+            buttons.append([InlineKeyboardButton("✾ 𝚂𝚄𝙱𝙹𝙴𝙲𝚃𝚂 ✾", callback_data="subject")])
             reply_markup = InlineKeyboardMarkup(buttons)
-            await query.message.edit_text(f"𝐂𝙷𝙾𝚂𝙴 𝙰 𝐓𝙴𝙰𝙲𝙷𝙴𝚁 𝐅𝙾𝚁 {subject}:", reply_markup=reply_markup)
+            await query.message.edit_text(f"╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺╺\n\n**Select a Teacher for {subject} :** 💐", reply_markup=reply_markup)
         else:
             await query.message.edit_text("Failed to fetch data from the API. Please try again later.")
     elif query.data == "subject":
         reply_markup = InlineKeyboardMarkup(SUBJECTS_BTN)
-        await query.message.edit_text("𝐂𝙷𝙾𝚂𝙴 𝙰 𝐒𝚄𝙱𝙹𝙴𝙲𝚃 𝐏𝙻𝙴𝙰𝚂𝙴 :", reply_markup = reply_markup)
+        await query.message.edit_text("━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n𝙲𝙷𝙾𝙾𝚂𝙴 𝙰 𝚂𝚄𝙱𝙹𝙴𝙲𝚃 𝚃𝙾 𝙿𝚁𝙾𝙲𝙴𝙴𝙳 🦋 :", reply_markup = reply_markup)
     elif query.data.startswith("teacher_"):
         data_parts = query.data.split("_")
         subject = data_parts[1]
@@ -80,7 +80,7 @@ async def handle_callback(_, query):
                 next_page = 2
                 await send_chapters_pages(query.message, chapters, subject, teacher_name, current_page, next_page, query)
             else:
-                await query.message.edit_text("Failed to fetch data from the API. Please try again later.")
+                await query.message.edit_text("𝙵𝙰𝙸𝙻𝙴𝙳 𝚃𝙾 𝙵𝙴𝚃𝙲𝙷 𝙳𝙰𝚃𝙰 𝙵𝚁𝙾𝙼 𝙰𝙿𝙸, 𝙿𝙻𝙴𝙰𝚂𝙴 𝚃𝚁𝚈 𝙰𝙶𝙰𝙸𝙽 𝙻𝙰𝚃𝙴𝚁.")
         except ButtonDataInvalid as bd:
             print('ButtonDataInvalid:', bd)
         except Exception as e:
@@ -94,14 +94,14 @@ async def handle_callback(_, query):
         if lecture_link:
             shivabeta = [
                         [
-                            InlineKeyboardButton("𝐋𝐄𝐂𝐓𝐔𝐑𝐄𝐒", url= lecture_link),
-                            InlineKeyboardButton("𝐁𝐀𝐂𝐊", f"teacher_{subject}_{teacher_name}"),
+                            InlineKeyboardButton("❈ 𝐋ᴇᴄᴛᴜʀᴇs ❈", url= lecture_link),
+                            InlineKeyboardButton("❈ 𝐁ᴀᴄᴋ ❈", f"teacher_{subject}_{teacher_name}"),
                         ]
                     ]
             reply_markup = InlineKeyboardMarkup(shivabeta)
-            await query.message.edit_text(f"Lectures for chapter {chapter_name} obtained successfully from database!!\n\nClick on the below button to get all lectures.", reply_markup= reply_markup )
+            await query.message.edit_text(f"**ーーーーーーーーーーーーーーーーーー**\n\n**Lectures for chapter {chapter_name} obtained successfully from database!! 🎊 **\n\n**Click on the below button to get all lectures...**\n\n**ーーーーーーーーーーーーーーーーーー**", reply_markup= reply_markup )
         else:
-            await query.message.reply_text("Failed to fetch lecture link. Please try again later.")
+            await query.message.reply_text("𝙵𝙰𝙸𝙻𝙴𝙳 𝚃𝙾 𝙵𝙴𝚃𝙲𝙷 𝙻𝙴𝙲𝚃𝚄𝚁𝙴 𝙻𝙸𝙽𝙺, 𝙿𝙻𝙴𝙰𝚂𝙴 𝚃𝚁𝚈 𝙰𝙶𝙰𝙸𝙽 𝙻𝙰𝚃𝙴𝚁.")
     
     elif query.data.startswith("prev_page_"):
         # Handle previous page callback
@@ -123,7 +123,7 @@ async def send_previous_page(message, subject, teacher_name, previous_page, quer
             if response:
                 chapters = response.get("chapters", [])
             else:
-                await message.reply_text("Failed to fetch chapters. Please try again later.")
+                await message.reply_text("𝙵𝙰𝙸𝙻𝙴𝙳 𝚃𝙾 𝙵𝙴𝚃𝙲𝙷 𝙲𝙷𝙰𝙿𝚃𝙴𝚁𝚂, 𝙿𝙻𝙴𝙰𝚂𝙴 𝚃𝚁𝚈 𝙰𝙶𝙰𝙸𝙽 𝙻𝙰𝚃𝙴𝚁.")
                 return
         except ButtonDataInvalid as bd:
             print('ButtonDataInvalid:', bd)
@@ -194,7 +194,7 @@ async def send_chapters_pages(message, chapters, subject, teacher_name, current_
     if current_page == 1:
         xytra = total_pages
         pagination_buttons.append(InlineKeyboardButton(" ☚", callback_data=f"prev_page_{subject}_{teacher_name}_{xytra}"))
-    pagination_buttons.append(InlineKeyboardButton("߷ 𝐓ᴇᴀᴄʜᴇʀs ߷",  callback_data=f"subject_{subject}"))
+    pagination_buttons.append(InlineKeyboardButton("❉ 𝐓𝙴𝙰𝙲𝙷𝙴𝚁𝚂 ❉",  callback_data=f"subject_{subject}"))
     if current_page < total_pages:
         pagination_buttons.append(InlineKeyboardButton("☛", callback_data=f"next_page_{subject}_{teacher_name}_{current_page + 1}"))
     if current_page == total_pages:

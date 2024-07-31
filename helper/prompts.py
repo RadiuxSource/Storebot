@@ -35,8 +35,7 @@ You are a sophisticated AI designed to generate JEE Mains level questions. Your 
     "correct_option_id": [Index of the correct option, 0-based]
 }}
 
-Generate a question for the {subject} subject.
 """
-    return quiz_ai
+    return quiz_ai, subject
 
     

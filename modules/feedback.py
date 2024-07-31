@@ -13,7 +13,7 @@ async def feedback(client, message: Message):
     feedback_msg: Message = await pyrostep.wait_for(message.from_user.id)
     try:
         if feedback_msg:
-            sent_msg = await client.forward_messages(LOGGER_ID, message.from_user.id, message.id)
+            sent_msg = await client.forward_messages(LOGGER_ID, message.from_user.id, feedback_msg.id)
             user_info = f"User ID: {message.from_user.id}\nUsername: @{message.from_user.username}"
             feedback_info = (
                 f"📣 New Feedback! 📣\n\n{user_info}"

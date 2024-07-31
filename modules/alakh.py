@@ -4,22 +4,27 @@ from youtubesearchpython import CustomSearch, SearchMode
 
 import aiohttp
 from helper.prompts import alakh_ai, search_ai
+from helper.blackbox import Blackbox
 from zenova import zenova
 import json
 import requests
 
-API_URL = "https://chatgpt.apinepdev.workers.dev/?question="
+# API_URL = "https://chatgpt.apinepdev.workers.dev/?question="
 YT_SEARCH_API = "https://chat-gpt.hazex.workers.dev/"  
 
 async def handle_alakh(message, title = None):
     txt = message
     async with aiohttp.ClientSession() as session:
         if title:
-             async with session.get(f"{API_URL}'prompt' :{alakh_ai}, 'title': {title}, 'user':{txt}") as response:
-                 data = await response.text()
+            blackbox = Blackbox()
+            payload = f"'title': {title}, 'user': {txt}"
+            data = blackbox.request(payload, alakh_ai)
+             # async with session.get(f"{API_URL}'prompt' :{alakh_ai}, 'title': {title}, 'user':{txt}") as response:
+             #     data = await response.text()
         else:
-            async with session.get(f"{API_URL}'prompt' :{alakh_ai},'title': None, 'user':{txt}") as response:
-                data = await response.text()
+            blackbox = Blackbox()
+            payload = f"'title': None, 'user': {txt}"
+            data = blackbox.request(payload, alakh_ai)
         answer = json.loads(data)['answer']
         return answer
 

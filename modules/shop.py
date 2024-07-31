@@ -12,10 +12,15 @@ shop_list = []
 @zenova.on_message(filters.command("add") & filters.user(ADMINS))
 async def add_to_shop(client, message: Message):
     await message.reply_text("Enter the message to add to the shop: 🛍️")
-    msg: Message = await pyrostep.wait_for(message.from_user.id)
-    sent_msg: Message = await zenova.copy_message(STORE_ID, msg.chat.id, msg.id)
-    shop_list.append(sent_msg.id)
-    await message.reply_text("Message added to the shop successfully! 👍")
+    msg: Message = await pyrostep.wait_for(message.from_user.id, timeout = 20)
+    try:
+        sent_msg: Message = await zenova.copy_message(STORE_ID, msg.chat.id, msg.id)
+        shop_list.append(sent_msg.id)
+        await message.reply_text("Message added to the shop successfully! 👍")
+    except TimeoutError as t:
+        await message.reply_text(t)
+    except Exception as e:
+        await message.reply_text(e)
 
 @zenova.on_message(filters.command("list") & filters.user(ADMINS))
 async def list_shop(client, message: Message):
@@ -50,7 +55,7 @@ async def shop(client, message):
         current_msg_id = shop_list[0]
         await send_shop_message(message, current_msg_id, 0)
     except Exception as e:
-        await message.reply_text("Error: Unable to retrieve shop list. 😕")
+        await message.reply_text(f"Error: Unable to retrieve shop list. 😕\n\n{e}")
         print(f"Error: {e}")
 
 async def send_shop_message(message: Message, msg_id, index):
@@ -63,12 +68,14 @@ async def send_shop_message(message: Message, msg_id, index):
                 InlineKeyboardButton("Next 🔜" if index < len(shop_list) - 1 else "Next 🔜 (No more)", callback_data=f"Snext_{index}")
             ])
         keyboard.append([InlineKeyboardButton("Buy Now 💸", callback_data=f"buy_{index}")])
-        if msg.media:
-            photo_file = await zenova.download_media(message=msg, file_name=f'photo_{message.from_user.id}.jpg')
-            await message.reply_photo(photo_file, msg.text, reply_markup=InlineKeyboardMarkup(keyboard))
-            os.remove(path=photo_file)
-        else:
-            await message.reply_text(msg.text, reply_markup=InlineKeyboardMarkup(keyboard))
+        sk = await zenova.copy_message(message.chat.id, STORE_ID, msg_id)
+        await sk.edit_reply_markup(InlineKeyboardMarkup(keyboard))
+        # if msg.media:
+        #     photo_file = await zenova.download_media(message=msg, file_name=f'photo_{message.from_user.id}.jpg')
+        #     await message.reply_photo(photo_file, msg.text, reply_markup=InlineKeyboardMarkup(keyboard))
+        #     os.remove(path=photo_file)
+        # else:
+        #     await message.reply_text(msg.text, reply_markup=InlineKeyboardMarkup(keyboard))
     except Exception as e:
         await message.reply_text("Error: Unable to retrieve shop message. 😕")
         print(f"Error: {e}")
@@ -82,30 +89,14 @@ async def shop_callback(client, callback_query: CallbackQuery):
             index = int(data.split("_")[1])
             new_index = (index - 1) % len(shop_list)
             new_msg_id = shop_list[new_index]
-            new_msg: Message = await zenova.get_messages(STORE_ID, new_msg_id)
-            if new_msg.media:
-                photo_file = await zenova.download_media(message=new_msg, file_name=f'photo_{id}.jpg')
-                await callback_query.message.edit_media(photo_file)
-                os.remove(path=photo_file)
-            await callback_query.message.edit_text(new_msg.text, reply_markup=InlineKeyboardMarkup([
-                [InlineKeyboardButton("Buy Now 💸", callback_data=f"buy_{new_index}")],
-                [InlineKeyboardButton("Prev 🔙" if new_index > 0 else "Prev 🔙 (No more)", callback_data=f"Sprev_{new_index}"),
-                 InlineKeyboardButton("Next 🔜" if new_index < len(shop_list) - 1 else "Next 🔜 (No more)", callback_data=f"Snext_{new_index}")]
-            ]))
+            await send_shop_message(callback_query.message, new_msg_id, new_index)
+            await callback_query.message.delete()  
         elif data.startswith("Snext"):
             index = int(data.split("_")[1])
             new_index = (index + 1) % len(shop_list)
             new_msg_id = shop_list[new_index]
-            new_msg: Message = await zenova.get_messages(STORE_ID, new_msg_id)
-            if new_msg.media:
-                photo_file = await zenova.download_media(message=new_msg, file_name=f'photo_{id}.jpg')
-                await callback_query.message.edit_media(photo_file)
-                os.remove(path=photo_file)
-            await callback_query.message.edit_text(new_msg.text, reply_markup=InlineKeyboardMarkup([
-                [InlineKeyboardButton("Buy Now 💸", callback_data=f"buy_{new_index}")],
-                [InlineKeyboardButton("Prev 🔙" if new_index > 0 else "Prev 🔙 (No more)", callback_data=f"Sprev_{new_index}"),
-                 InlineKeyboardButton("Next 🔜" if new_index < len(shop_list) - 1 else "Next 🔜 (No more)", callback_data=f"Snext_{new_index}")]
-            ]))
+            await send_shop_message(callback_query.message, new_msg_id, new_index)
+            await callback_query.message.delete()  
         elif data.startswith("buy"):
             index = int(data.split("_")[1])
             keyboard = InlineKeyboardMarkup([

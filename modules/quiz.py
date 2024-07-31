@@ -15,6 +15,7 @@ from config import DB_URI
 from config2 import LOGGER_ID
 from helper_func import is_admin
 from helper.prompts import quiz_ai
+from helper.blackbox import Blackbox
 
 # API URL
 API_URL = "https://chatgpt.apinepdev.workers.dev/?question="
@@ -97,7 +98,11 @@ Name = {message.chat.title}
 
 
 async def get_question():
-    response = requests.get(f"{API_URL}{await quiz_ai()}")
+    blackbox = Blackbox()
+    sys_prompt, subject = await quiz_ai()
+    content = f"Generate a question for the {subject} subject."
+    response = blackbox.request(content, sys_prompt)
+    # response = requests.get(f"{API_URL}{await quiz_ai()}")
     result = response.json()
     question = result.get("answer", "No answer received from ChatGPT.")
     return question
