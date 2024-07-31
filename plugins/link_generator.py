@@ -1,11 +1,33 @@
-#(©)Codexbotz
-
 from pyrogram import Client, filters
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
+from telegraph import upload_file, TelegraphException
+from telegraph.exceptions import RetryAfterError
 from bot import Bot
 from config import ADMINS
 from helper_func import encode, get_message_id
 import json
+import asyncio
+
+async def upload_photo(message, path):
+    max_retries = 5
+    retries = 0
+    while retries < max_retries:
+        try:
+            link = upload_file(path)
+            generated_link = "https://telegra.ph" + "".join(link)
+            return generated_link
+        except RetryAfterError as e:
+            await message.reply(f"Flood control exceeded. Retrying after {e.retry_after} seconds")
+            await asyncio.sleep(e.retry_after)
+            retries += 1
+        except TelegraphException as e:
+            await message.reply(f"Error uploading image: {e}")
+            return None
+        except Exception as e:
+            await message.reply(f"Error uploading image: {e}")
+            return None
+    await message.reply("Maximum retries exceeded, giving up")
+    return None
 
 @Bot.on_message(filters.private & filters.user(ADMINS) & filters.command('batch'))
 async def batch(client: Client, message: Message):
@@ -94,8 +116,9 @@ async def batch_poll(client: Client, message: Message):
         try:
             msg = await client.get_messages(chat_id=client.db_channel.id, message_ids=msg_id)
             if msg.photo:
+                photo_path = await client.download_media(message=msg, file_name=f"image/photo{msg_id}.jpg")
                 # Get the photo link
-                photo_link = await upload_photo(msg.photo.file_id)
+                photo_link = await upload_photo(message, photo_path)
                 # Get the next poll message
                 next_msg_id = msg_id + 1
                 while True:

@@ -13,3 +13,4 @@ datetime
 pytz
 APScheduler
 youtube-search-python
+telegraph
