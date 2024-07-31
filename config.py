@@ -19,6 +19,9 @@ CHANNEL_ID = int(os.environ.get("CHANNEL_ID", ""))
 #OWNER ID
 OWNER_ID = int(os.environ.get("OWNER_ID", ""))
 
+# Polls database channel
+POLL_DB = int(os.environ.get("POLL_DB", ""))
+
 #Port
 PORT = os.environ.get("PORT", "8080")
 

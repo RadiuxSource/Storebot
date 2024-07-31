@@ -6,7 +6,7 @@ import asyncio
 from pyrogram import filters
 from pyrogram.enums import ChatMemberStatus
 from pyrogram import enums
-from config import ADMINS
+from config import ADMINS, POLL_DB
 from zenova import zenova
 from pyrogram.errors.exceptions.bad_request_400 import UserNotParticipant
 from pyrogram.errors import FloodWait
@@ -68,9 +68,10 @@ async def get_messages(client, message_ids):
         messages.extend(msgs)
     return messages
 
-async def get_message_id(client, message):
+async def get_message_id(client, message, poll = False):
+    chk_id = client.db_channel.id if not poll else POLL_DB
     if message.forward_from_chat:
-        if message.forward_from_chat.id == client.db_channel.id:
+        if message.forward_from_chat.id == chk_id:
             return message.forward_from_message_id
         else:
             return 0
@@ -84,7 +85,7 @@ async def get_message_id(client, message):
         channel_id = matches.group(1)
         msg_id = int(matches.group(2))
         if channel_id.isdigit():
-            if f"-100{channel_id}" == str(client.db_channel.id):
+            if f"-100{channel_id}" == str(chk_id):
                 return msg_id
         else:
             if channel_id == client.db_channel.username:
