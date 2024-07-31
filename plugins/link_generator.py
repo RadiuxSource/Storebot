@@ -3,7 +3,7 @@ from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from telegraph import upload_file, TelegraphException
 from telegraph.exceptions import RetryAfterError
 from bot import Bot
-from config import ADMINS
+from config import ADMINS, POLL_DB
 from helper_func import encode, get_message_id
 import json
 import asyncio
@@ -114,7 +114,7 @@ async def batch_poll(client: Client, message: Message):
     questions = []
     for msg_id in message_ids:
         try:
-            msg = await client.get_messages(chat_id=client.db_channel.id, message_ids=msg_id)
+            msg = await client.get_messages(chat_id=POLL_DB, message_ids=msg_id)
             if msg.photo:
                 photo_path = await client.download_media(message=msg, file_name=f"image/photo{msg_id}.jpg")
                 # Get the photo link
@@ -123,7 +123,7 @@ async def batch_poll(client: Client, message: Message):
                 next_msg_id = msg_id + 1
                 while True:
                     try:
-                        next_msg = await client.get_messages(chat_id=client.db_channel.id, message_ids=next_msg_id)
+                        next_msg = await client.get_messages(chat_id=POLL_DB, message_ids=next_msg_id)
                         if next_msg.poll:
                             break
                         next_msg_id += 1
