@@ -69,14 +69,18 @@ async def get_messages(client, message_ids):
     return messages
 
 async def get_message_id(client, message, poll = False):
-    chk_id = client.db_channel.id if not poll else POLL_DB
+    if not poll:
+        chk_id = client.db_channel.id
+    else:
+        chk_id = POLL_DB
+    print(chk_id)
     if message.forward_from_chat:
-        if message.forward_from_chat.id == chk_id:
+        if message.forward_from_chat.id == POLL_DB:
+            return message.forward_from_message_id
+        elif message.forward_from_chat.id == chk_id:
             return message.forward_from_message_id
         else:
             return 0
-    elif message.forward_sender_name:
-        return 0
     elif message.text:
         pattern = "https://t.me/(?:c/)?(.*)/(\d+)"
         matches = re.match(pattern,message.text)
@@ -92,7 +96,6 @@ async def get_message_id(client, message, poll = False):
                 return msg_id
     else:
         return 0
-
 
 def get_readable_time(seconds: int) -> str:
     count = 0
