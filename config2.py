@@ -15,7 +15,7 @@ QR_CODE = os.environ.get("QR_CODE", "https://i.postimg.cc/wTz2NP1N/5ff8d046-d31b
 CHANNEL_USERNAME = '@ZenovaPrime'
 DB_GROUP_ID = int(os.environ.get("DB_GROUP_ID"))
 
-SUPPORTING = '@Future_IITians_JeeStudyRoom'
+SUPPORTING = '@JEENEETARDS_TG'
 UPDATE = "https://t.me/+lkWsNLrl-Qs4NDQ1"
 SUPPORT = "https://t.me/+zzgzUezLLK9lMGI1"
 ERROR_IMG = "https://i.postimg.cc/wTz2NP1N/5ff8d046-d31b-476e-81d2-6b81a231491b.jpg"
