@@ -1,7 +1,7 @@
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
-# from pyrogram.errors import ChatAdminRequired, UserNotParticipant, ChatWriteForbidden
-from pyrogram.errors.exceptions.bad_request_400 import ChatAdminRequired, UserNotParticipant, ChatWriteForbidden
+from pyrogram.errors import ChatAdminRequired, ChatWriteForbidden
+from pyrogram.errors.exceptions.bad_request_400 import UserNotParticipant
 from zenova import zenova as app
 from config2 import ERROR_IMG, CHANNEL_USERNAME as MUST_JOIN
 
