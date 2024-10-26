@@ -4,7 +4,7 @@ from pyrogram import filters, enums
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
 from pyrogram.errors import ButtonDataInvalid, MessageNotModified, rpc_error
 
-from zenova import zenova as Bot
+from zenova import zenova as Bot 
 from db import add_user, present_user
 import config2 as config
 from helper.messages import (
@@ -205,8 +205,10 @@ async def send_chapters_pages(message, chapters, subject, teacher_name, current_
     try:
         reply_markup = InlineKeyboardMarkup(buttons)
         await message.edit_text(f"Page {current_page}/{total_pages} - Please choose a chapter from below buttons:", reply_markup=reply_markup)
-    except ButtonDataInvalid:
-        await message.reply_text(f"InlineButton text too long.\n\n Please report it to support chat")
+    except ButtonDataInvalid as bd:
+        await message.reply_text(f"InlineButton text too long.\n\n I have reported to Log group, you can visit our support group.")
+        await client.send_message(config.LOGGER_ID, str(reply_markup))
+        await client.send_message(config.LOGGER_ID, str(bd))
     except MessageNotModified:
         await query.answer("Their is no other pages!!")
     except rpc_error as e:
