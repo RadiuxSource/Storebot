@@ -1,6 +1,7 @@
 import asyncio
 import logging
 import time
+import logging.handlers as handlers
 from importlib import import_module
 from pymongo import MongoClient
 from os import listdir, path
@@ -17,9 +18,12 @@ boot = time.time()
 
 
 logging.basicConfig(
-    format="[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s",
     level=logging.INFO,
-)
+    datefmt="%d/%m/%Y %H:%M:%S",
+    format='[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s',
+    handlers=[logging.StreamHandler(stream=sys.stdout),
+              handlers.RotatingFileHandler("zenova.log", mode="a", maxBytes=104857600, backupCount=2, encoding="utf-8")],)
+
 
 
 
