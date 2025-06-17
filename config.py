@@ -58,6 +58,14 @@ PROTECT_CONTENT = True if os.environ.get('PROTECT_CONTENT', "False") == "True" e
 #Set true if you want Disable your Channel Posts Share button
 DISABLE_CHANNEL_BUTTON = os.environ.get("DISABLE_CHANNEL_BUTTON", None) == 'True'
 
+SHORTLINK_URL = "linkcents.com"
+SHORTLINK_API = "370aacd6bb24750faa90d732aec971de67999cee"
+    
+    # Verification System
+IS_VERIFY = True
+VERIFY_EXPIRE = 129600  # 36 hours
+TUT_VID = "https://t.me/your_channel/123"
+
 BOT_STATS_TEXT = "<b>BOT UPTIME</b>\n{uptime}"
 USER_REPLY_TEXT = "❌ Don't send me messages directly, Use only one of the given CMDs"
 
