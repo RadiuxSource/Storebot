@@ -16,7 +16,7 @@ from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, 
 from pyrogram.errors import FloodWait, UserIsBlocked, InputUserDeactivated, ButtonDataInvalid, MessageNotModified
 
 from zenova import zenova as Bot
-from db import add_user, present_user, update_verification, check_verification
+from database.database import add_user, present_user, update_verification, check_verification
 import config2 as config
 from config2 import LOGGER_ID, IS_VERIFY, VERIFY_EXPIRE, SHORTLINK_URL, SHORTLINK_API, VERIFY_TUT_VID
 
