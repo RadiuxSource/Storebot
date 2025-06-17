@@ -19,3 +19,10 @@ Start_img = "https://graph.org/file/0bad2013037371af5ac94.jpg"
 approved_users = [5265109324, 6790062374]
 LEC_BOT = "https://t.me/The_lectures_bot"
 Bot_join_url = "https://t.me/JEE_Lectures_bot?startgroup=true"
+SHORTLINK_URL = "linkcents.com"
+SHORTLINK_API = "370aacd6bb24750faa90d732aec971de67999cee"
+    
+    # Verification System
+IS_VERIFY = True
+VERIFY_EXPIRE = 129600  # 36 hours
+TUT_VID = "https://t.me/your_channel/123"
