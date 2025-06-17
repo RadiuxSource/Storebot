@@ -1,136 +1,198 @@
-import os
+#(©)Codeflix_Bots
+
+import logging
+import base64
+import random
+import re
+import string
+import time
 import asyncio
+
 from pyrogram import Client, filters, __version__
 from pyrogram.enums import ParseMode
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from pyrogram.errors import FloodWait, UserIsBlocked, InputUserDeactivated
 
 from bot import Bot
-from config import ADMINS, FORCE_MSG, START_MSG, CUSTOM_CAPTION, DISABLE_CHANNEL_BUTTON, PROTECT_CONTENT, START_IMG, UPDT_CHNL
-from helper_func import subscribed, encode, decode, get_messages
+from config import (
+    ADMINS,
+    FORCE_MSG,
+    START_MSG,
+    CUSTOM_CAPTION,
+    IS_VERIFY,
+    VERIFY_EXPIRE,
+    SHORTLINK_API,
+    SHORTLINK_URL,
+    DISABLE_CHANNEL_BUTTON,
+    PROTECT_CONTENT,
+    TUT_VID,
+    OWNER_ID,
+)
+from helper_func import subscribed, encode, decode, get_messages, get_shortlink, get_verify_status, update_verify_status, get_exp_time
 from database.database import add_user, del_user, full_userbase, present_user
-
-
+from shortzy import Shortzy
 
 
 @Bot.on_message(filters.command('start') & filters.private & subscribed)
 async def start_command(client: Client, message: Message):
     id = message.from_user.id
-    if not await present_user(id):
-        try:
-            await add_user(id)
-        except:
-            pass
-    text = message.text
-    if len(text)>7:
-        try:
-            base64_string = text.split(" ", 1)[1]
-        except:
-            return
-        string = await decode(base64_string)
-        argument = string.split("-")
-        if len(argument) == 3:
-            try:
-                start = int(int(argument[1]) / abs(client.db_channel.id))
-                end = int(int(argument[2]) / abs(client.db_channel.id))
-            except:
-                return
-            if start <= end:
-                ids = range(start,end+1)
-            else:
-                ids = []
-                i = start
-                while True:
-                    ids.append(i)
-                    i -= 1
-                    if i < end:
-                        break
-        elif len(argument) == 2:
-            try:
-                ids = [int(int(argument[1]) / abs(client.db_channel.id))]
-            except:
-                return
-        temp_msg = await message.reply("Please wait...")
-        try:
-            messages = await get_messages(client, ids)
-        except:
-            await message.reply_text("Something went wrong..!")
-            return
-        await temp_msg.delete()
+    owner_id = ADMINS  # Fetch the owner's ID from config
 
-        for msg in messages:
-
-            if bool(CUSTOM_CAPTION) & bool(msg.document):
-                caption = CUSTOM_CAPTION.format(previouscaption = "" if not msg.caption else msg.caption.html, filename = msg.document.file_name)
-            else:
-                caption = "" if not msg.caption else msg.caption.html
-
-            if DISABLE_CHANNEL_BUTTON:
-                reply_markup = msg.reply_markup
-            else:
-                reply_markup = None
-
-            try:
-                await msg.copy(chat_id=message.from_user.id, caption = caption, parse_mode = ParseMode.HTML, reply_markup = reply_markup, protect_content=PROTECT_CONTENT)
-                await asyncio.sleep(0.5)
-            except FloodWait as e:
-                await asyncio.sleep(e.x)
-                await msg.copy(chat_id=message.from_user.id, caption = caption, parse_mode = ParseMode.HTML, reply_markup = reply_markup, protect_content=PROTECT_CONTENT)
-            except:
-                pass       
-        await client.send_message(message.from_user.id, START_MSG)
+    # Check if the user is the owner
+    if id == owner_id:
+        await message.reply("You are the owner! Additional actions can be added here.")
         return
+
     else:
-        reply_markup = InlineKeyboardMarkup(
-            [
-                [
-                    InlineKeyboardButton("𝐂𝙷𝙰𝙽𝙽𝙴𝙻 💕", url = UPDT_CHNL),
-                    InlineKeyboardButton("Zᴇɴᴏᴠᴀ Lᴇᴄᴛᴜʀᴇs Bᴏᴛ 💕", url= "https://t.me/JEE_LECTURE_BOT")
+        if not await present_user(id):
+            try:
+                await add_user(id)
+            except:
+                pass
+
+        verify_status = await get_verify_status(id)
+        if verify_status['is_verified'] and VERIFY_EXPIRE < (time.time() - verify_status['verified_time']):
+            await update_verify_status(id, is_verified=False)
+
+        if "verify_" in message.text:
+            _, token = message.text.split("_", 1)
+            if verify_status['verify_token'] != token:
+                return await message.reply("Your token is invalid or Expired. Try again by clicking /start")
+            await update_verify_status(id, is_verified=True, verified_time=time.time())
+            if verify_status["link"] == "":
+                reply_markup = None
+            await message.reply(f"✅ Your token successfully verified and valid for: {get_exp_time(VERIFY_EXPIRE)}", reply_markup=reply_markup, protect_content=False, quote=True)
+
+        elif len(message.text) > 7 and verify_status['is_verified']:
+            try:
+                base64_string = message.text.split(" ", 1)[1]
+            except:
+                return
+            _string = await decode(base64_string)
+            argument = _string.split("-")
+            if len(argument) == 3:
+                try:
+                    start = int(int(argument[1]) / abs(client.db_channel.id))
+                    end = int(int(argument[2]) / abs(client.db_channel.id))
+                except:
+                    return
+                if start <= end:
+                    ids = range(start, end+1)
+                else:
+                    ids = []
+                    i = start
+                    while True:
+                        ids.append(i)
+                        i -= 1
+                        if i < end:
+                            break
+            elif len(argument) == 2:
+                try:
+                    ids = [int(int(argument[1]) / abs(client.db_channel.id))]
+                except:
+                    return
+            temp_msg = await message.reply("Please wait...")
+            try:
+                messages = await get_messages(client, ids)
+            except:
+                await message.reply_text("Something went wrong..!")
+                return
+            await temp_msg.delete()
+            
+            snt_msgs = []
+            
+            for msg in messages:
+                if bool(CUSTOM_CAPTION) & bool(msg.document):
+                    caption = CUSTOM_CAPTION.format(previouscaption="" if not msg.caption else msg.caption.html, filename=msg.document.file_name)
+                else:
+                    caption = "" if not msg.caption else msg.caption.html
+
+                if DISABLE_CHANNEL_BUTTON:
+                    reply_markup = msg.reply_markup
+                else:
+                    reply_markup = None
+
+                try:
+                    snt_msg = await msg.copy(chat_id=message.from_user.id, caption=caption, parse_mode=ParseMode.HTML, reply_markup=reply_markup, protect_content=PROTECT_CONTENT)
+                    await asyncio.sleep(0.5)
+                    snt_msgs.append(snt_msg)
+                except FloodWait as e:
+                    await asyncio.sleep(e.x)
+                    snt_msg = await msg.copy(chat_id=message.from_user.id, caption=caption, parse_mode=ParseMode.HTML, reply_markup=reply_markup, protect_content=PROTECT_CONTENT)
+                    snt_msgs.append(snt_msg)
+                except:
+                    pass
+
+            SD = await message.reply_text("Baka! Files will be deleted After 600 seconds. Save them to the Saved Message now!")
+            await asyncio.sleep(600)
+
+            for snt_msg in snt_msgs:
+                try:
+                    await snt_msg.delete()
+                    await SD.delete()
+                except:
+                    pass
+
+        elif verify_status['is_verified']:
+            reply_markup = InlineKeyboardMarkup(
+                [[InlineKeyboardButton("About Me", callback_data="about"),
+                  InlineKeyboardButton("Close", callback_data="close")]]
+            )
+            await message.reply_text(
+                text=START_MSG.format(
+                    first=message.from_user.first_name,
+                    last=message.from_user.last_name,
+                    username=None if not message.from_user.username else '@' + message.from_user.username,
+                    mention=message.from_user.mention,
+                    id=message.from_user.id
+                ),
+                reply_markup=reply_markup,
+                disable_web_page_preview=True,
+                quote=True
+            )
+
+        else:
+            verify_status = await get_verify_status(id)
+            if IS_VERIFY and not verify_status['is_verified']:
+                token = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
+                await update_verify_status(id, verify_token=token, link="")
+                link = await get_shortlink(SHORTLINK_URL, SHORTLINK_API,f'https://telegram.dog/{client.username}?start=verify_{token}')
+                btn = [
+                    [InlineKeyboardButton("Click here", url=link)],
+                    [InlineKeyboardButton('How to use the bot', url=TUT_VID)]
                 ]
-            ]
-        )
-        xytra = """👋Wᴇʟᴄᴏᴍᴇ ᴛᴏ Zᴇɴᴏᴠᴀ Lᴇᴄᴛᴜʀᴇs Cᴏᴍᴘᴀɴɪᴏɴ Bᴏᴛ!
+                await message.reply(
+                    f"🔒 Verification Required\n\n"
+                    f"Your access token has expired. Please verify to continue using the bot.\n\n"
+                    f"⏳ Verification valid for: {get_exp_time(VERIFY_EXPIRE)}\n\n"
+                    f"After verification, you can use the bot for 36 hours.",
+                    reply_markup=InlineKeyboardMarkup(btn),
+                    protect_content=False,
+                    quote=True
+                )
 
-This bot is your gateway to accessing lectures on various subjects. If you're looking for lecture links, kindly use Zenova Lectures Bot. Feel free to explore and enhance your learning experience with us!
-"""
-        await message.reply_photo(
-            START_IMG,
-            quote = True,
-            caption = xytra,
-            reply_markup = reply_markup
-        )
-        return
 
-    
-#=====================================================================================##
+WAIT_MSG = "<b>ᴡᴏʀᴋɪɴɢ....</b>"
 
-WAIT_MSG = """"<b>Processing ...</b>"""
+REPLY_ERROR = "<code>Use this command as a reply to any telegram message without any spaces.</code>"
 
-REPLY_ERROR = """<code>Use this command as a replay to any telegram message with out any spaces.</code>"""
 
-#=====================================================================================##
-
-    
-    
 @Bot.on_message(filters.command('start') & filters.private)
 async def not_joined(client: Client, message: Message):
     buttons = [
         [
-            InlineKeyboardButton(
-                "𝐉𝙾𝙸𝙽 𝐂𝙷𝙰𝙽𝙽𝙴𝙻 ❣️",
-                url = UPDT_CHNL)
+            InlineKeyboardButton(text="• ᴊᴏɪɴ ᴄʜᴀɴɴᴇʟ", url=client.invitelink2),
+            InlineKeyboardButton(text="ᴊᴏɪɴ ᴄʜᴀɴɴᴇʟ •", url=client.invitelink3),
         ],
         [
-            InlineKeyboardButton(
-                "𝐉𝙾𝙸𝙽 𝐆𝚁𝙾𝚄𝙿 💕",
-                url = "https://t.me/+LhCWO2AQE20yNzU1")
+            InlineKeyboardButton(text="• �ᴏɪɴ ᴄʜᴀɴɴᴇʟ •", url=client.invitelink),
         ]
     ]
     try:
         buttons.append(
             [
                 InlineKeyboardButton(
-                    text = '𝐓𝚁𝚈 𝐀𝙶𝙰𝙸𝙽 ❣️',
+                    text = '• ɴᴏᴡ ᴄʟɪᴄᴋ ʜᴇʀᴇ •',
                     url = f"https://t.me/{client.username}?start={message.command[1]}"
                 )
             ]
@@ -155,7 +217,7 @@ async def not_joined(client: Client, message: Message):
 async def get_users(client: Bot, message: Message):
     msg = await client.send_message(chat_id=message.chat.id, text=WAIT_MSG)
     users = await full_userbase()
-    await msg.edit(f"{len(users)} users are using this bot")
+    await msg.edit(f"{len(users)} ᴜꜱᴇʀꜱ ᴀʀᴇ ᴜꜱɪɴɢ ᴛʜɪꜱ ʙᴏᴛ")
 
 @Bot.on_message(filters.private & filters.command('broadcast') & filters.user(ADMINS))
 async def send_text(client: Bot, message: Message):
@@ -168,7 +230,7 @@ async def send_text(client: Bot, message: Message):
         deleted = 0
         unsuccessful = 0
         
-        pls_wait = await message.reply("<i>Broadcasting Message.. This will Take Some Time</i>")
+        pls_wait = await message.reply("<i>ʙʀᴏᴀᴅᴄᴀꜱᴛ ᴘʀᴏᴄᴇꜱꜱɪɴɢ ᴛɪʟʟ ᴡᴀɪᴛ ʙʀᴏᴏ... </i>")
         for chat_id in query:
             try:
                 await broadcast_msg.copy(chat_id)
@@ -183,18 +245,18 @@ async def send_text(client: Bot, message: Message):
             except InputUserDeactivated:
                 await del_user(chat_id)
                 deleted += 1
-            except:
+            except Exception as e:
                 unsuccessful += 1
-                pass
+                logging.error(f"Broadcast Error: {e}")
             total += 1
         
-        status = f"""<b><u>Broadcast Completed</u>
+        status = f"""<b><u>ʙʀᴏᴀᴅᴄᴀꜱᴛ ᴄᴏᴍᴘʟᴇᴛᴇᴅ ᴍʏ sᴇɴᴘᴀɪ!!</u>
 
-Total Users: <code>{total}</code>
-Successful: <code>{successful}</code>
-Blocked Users: <code>{blocked}</code>
-Deleted Accounts: <code>{deleted}</code>
-Unsuccessful: <code>{unsuccessful}</code></b>"""
+ᴛᴏᴛᴀʟ ᴜꜱᴇʀꜱ: <code>{total}</code>
+ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟ: <code>{successful}</code>
+ʙʟᴏᴄᴋᴇᴅ ᴜꜱᴇʀꜱ: <code>{blocked}</code>
+ᴅᴇʟᴇᴛᴇᴅ ᴀᴄᴄᴏᴜɴᴛꜱ: <code>{deleted}</code>
+ᴜɴꜱᴜᴄᴄᴇꜱꜱꜰᴜʟ: <code>{unsuccessful}</code></b></b>"""
         
         return await pls_wait.edit(status)
 
