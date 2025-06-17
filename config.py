@@ -35,6 +35,14 @@ UPDT_CHNL = "https://t.me/+lkWsNLrl-Qs4NDQ1"
 
 START_IMG = "https://telegra.ph/file/cbcad53b141e4e227008e.jpg"
 
+SHORTLINK_URL = "linkcents.com"
+SHORTLINK_API = "370aacd6bb24750faa90d732aec971de67999cee"
+    
+    # Verification System
+IS_VERIFY = True
+VERIFY_EXPIRE = 129600  # 36 hours
+TUT_VID = "https://t.me/your_channel/123"
+
 #start message
 START_MSG = os.environ.get("START_MESSAGE", "Hello {first}\n\nI can store private files in Specified Channel and other users can access it from special link.")
 try:
