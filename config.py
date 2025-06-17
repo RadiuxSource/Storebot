@@ -53,6 +53,14 @@ FORCE_MSG = os.environ.get("FORCE_SUB_MESSAGE", "Hello {first}\n\n<b>You need to
 #set your Custom Caption here, Keep None for Disable Custom Caption
 CUSTOM_CAPTION = os.environ.get("CUSTOM_CAPTION", None)
 
+SHORTLINK_URL = "linkcents.com"
+SHORTLINK_API = "370aacd6bb24750faa90d732aec971de67999cee"
+    
+    # Verification System
+IS_VERIFY = True
+VERIFY_EXPIRE = 129600  # 36 hours
+TUT_VID = "https://t.me/your_channel/123"
+
 #set True if you want to prevent users from forwarding files from bot
 PROTECT_CONTENT = True if os.environ.get('PROTECT_CONTENT', "False") == "True" else False
 
