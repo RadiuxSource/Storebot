@@ -1,7 +1,7 @@
 pyrogram==2.0.106
 tgcrypto==1.2.5
 pyromod==1.5
-pymongo==4.7.2
+pymongo[srv]
 dnspython==2.6.1
 aiohttp
 Flask==2.2.2
