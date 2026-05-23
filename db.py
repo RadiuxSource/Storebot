@@ -1,7 +1,7 @@
 
 import pymongo, os
 
-DB_URI = "mongodb+srv://adityajsru17:aditya310708@aditya.c2ebyse.mongodb.net/?retryWrites=true&w=majority&appName=Aditya"
+DB_URI = "mongodb+srv://adityajsru17:aditya310708@cluster0.ktoud1o.mongodb.net/?appName=Cluster0"
 DB_NAME = "filesharexbot"
 
 dbclient = pymongo.MongoClient(DB_URI)
